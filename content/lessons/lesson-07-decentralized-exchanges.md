@@ -1,0 +1,43 @@
+{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-07/audio/lesson7%20Decentralized_Exchanges.m4a" %}
+
+{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-07/video/lesson7%20AMMs_Explained.mp4" %}
+
+# Lesson 7: Decentralized Exchanges
+
+## 🎯 Core Concept: Automated Market Makers (AMMs)
+
+TradFi and Centralized Exchanges utilize Central Limit Order Books (CLOBs), where buyers and sellers list prices. DeFi introduced a novel primitive: the Automated Market Maker (AMM), which uses mathematical formulas instead of order books to determine prices.
+
+## 📚 The Constant Product Formula
+
+The fundamental equation governing early AMMs (like Uniswap V2) is:
+
+$$x \times y = k$$
+
+Where:
+- **x**: The quantity of Token A in the pool
+- **y**: The quantity of Token B in the pool  
+- **k**: A constant (must remain the same after every trade)
+
+**How It Works**: When a trader buys Token A from the pool, the supply of x decreases. To keep k constant, the supply of y must increase. This algorithmic relationship automatically adjusts the price based on supply and demand.
+
+## 📚 Liquidity Pools
+
+Instead of matching a buyer with a seller, the AMM matches a trader against a "pool" of assets (smart contract) provided by Liquidity Providers (LPs).
+
+**Key Concepts**:
+- **Liquidity Providers**: Users who deposit tokens into pools to earn fees
+- **Price Discovery**: Prices adjust automatically based on trades
+- **Impermanent Loss**: LPs face risk if token prices diverge significantly
+
+## 🔑 Key Takeaways
+
+1. **AMMs Replace Order Books**: Mathematical formulas determine prices automatically
+2. **Liquidity Pools**: Traders swap against pools, not individual orders
+3. **Constant Product Formula**: x × y = k ensures liquidity always exists
+4. **Price Impact**: Larger trades move prices more (slippage)
+5. **LP Risks**: Providing liquidity has risks (impermanent loss)
+
+---
+
+**Next Lesson**: In Lesson 8, we'll explore DeFi lending and borrowing protocols.

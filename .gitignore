@@ -1,0 +1,24 @@
+# Media files (stored in Google Cloud Storage)
+content/audio/
+content/videos/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (if tools are added later)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+

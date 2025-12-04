@@ -1,0 +1,215 @@
+﻿The Access Layer: A Comprehensive Pedagogical Framework for DeFi Security, Identity, and Custodial Sovereignty
+Executive Summary: The Fortification of Digital Sovereignty in a Hostile Architecture
+The emergence of Decentralized Finance (DeFi) has precipitated a fundamental restructuring of the global financial architecture, shifting the locus of trust from centralized institutions to verifiable code and distributed ledgers. However, this shift has transferred an unprecedented burden of security onto the individual. Section 3 of the proposed DeFi curriculum, "The Access Layer – Wallets, Identity, and Operational Security," serves as the critical firewall between a learner’s assets and an increasingly sophisticated adversarial environment. This report expands that section into a rigorous, standalone, expert-level module, moving beyond introductory tutorials to establish a deep, first-principles understanding of cryptographic custody, the mechanics of authorization, and the evolving threat landscape of 2025.
+The necessity for this depth is underscored by the catastrophic security failures observed in the 2024–2025 period. Data from Chainalysis and CertiK indicates that while illicit transaction volume as a percentage of total volume remains low, the absolute value of stolen funds has surged, with over $2.17 billion stolen in the first half of 2025 alone—a figure surpassing the total losses of 2024.1 This surge is driven not merely by protocol exploits but by a sophisticated industrialization of end-user compromise. The ecosystem has witnessed a transition from simple phishing to "Pig Butchering" scams, AI-driven deepfake impersonations, and the weaponization of new Ethereum standards like EIP-7702.3
+The introduction of EIP-7702, widely heralded as a user experience breakthrough allowing Externally Owned Accounts (EOAs) to function as smart contracts, has introduced a "double-edged sword" dynamic to the access layer. While it enables features like transaction batching and gas sponsorship, early analysis by Wintermute revealed that nearly 48% of EIP-7702 authorizations were linked to criminal activity, specifically "CrimeEnjoyor" drainer contracts.3 This report dissects these developments, offering educators and advanced learners the technical scaffolding to navigate a "dark forest" where a single click can result in irreversible financial ruin.
+By synthesizing data from forensic reports, technical specifications, and behavioral psychology studies, this document outlines a curriculum that moves learners from passive observation to competent, secure participation. It argues that true DeFi literacy requires more than knowing how to trade; it requires a "security mindset" that views every interface as a potential attack vector and every signature as a final, immutable judgment.
+3.1 The Cognitive Architecture of Self-Custody: Deconstructing Legacy Mental Models
+To master DeFi security, one must first deconstruct the legacy mental models inherited from the Web2 and Traditional Finance (TradFi) eras. In traditional systems, security is a service provided by intermediaries; in DeFi, security is an active, continuous practice performed by the user.
+3.1.1 The "Not Your Keys" Paradox and the Transfer of Liability
+The mantra "Not your keys, not your coins" is the foundational axiom of cryptocurrency, yet it is frequently misunderstood as a simple directive to use a non-custodial wallet for the sake of liberty. Pedagogically, we must reframe this not as a benefit, but as a massive transfer of liability.
+In a centralized system, such as a bank or a centralized exchange like Coinbase, the institution holds the private keys. Access is granted via identity verification—passwords, two-factor authentication (2FA), and government ID. If credentials are lost, the institution can restore access because they retain the ultimate authority (the key). They also provide a layer of insurance and fraud reversal.6 In a self-custody model, the user is the institution. There is no customer support, no "forgot password" link, and no fraud reversal mechanism. The user assumes the role of the bank vault manager, the security guard, and the IT department simultaneously.
+The "Safety Net" Fallacy
+Research into user mental models reveals a dangerous cognitive gap: users often conflate "decentralization" with "security." A study by Georgia Tech found that many users believe the blockchain itself protects them from theft, or that enabling 2FA on a wallet app prevents funds from being drained.8 This is a fatal error. In self-custody, 2FA usually only protects the local application (the window), not the blockchain (the vault). If a user reveals their Seed Phrase (Secret Recovery Phrase) to a phishing site, no amount of 2FA on their phone will prevent an attacker from importing that phrase into their device and emptying the wallet.8
+To bridge this gap, educators should employ the analogy of the Glass Locker vs. The Bank Vault. In the Web2/CeFi model, users store gold in a bank vault. They have a key, but the bank manager has a master key. If the user loses theirs, the manager lets them in. If robbers come, the bank's guards fight them off. In the Web3/DeFi model, the user stores their gold in a transparent glass locker in the middle of a busy city square (the blockchain). Anyone can see inside. The locker has no keyhole, only a digital sensor. The user holds a mathematical remote control (private key). There are no guards. If the user accidentally hands the remote to a thief (phishing), or if they leave the remote unlocking the door (malicious approval), the theft is instant, public, and irreversible.
+3.1.2 The Psychology of Crypto Crises
+The behavioral response to loss in crypto is distinct from traditional finance due to the speed and finality of the events. Studies on the psychology of crypto crises suggest a three-stage response: denial, panic, and post-crisis reassessment.10
+During a "drainer" attack, the victim often experiences a moment of disbelief, followed by a frantic attempt to "cancel" the transaction. However, because blockchains are immutable state machines, there is no "cancel" button once a block is finalized. This realization often leads to panic-induced errors, such as clicking on fake "recovery" links on social media, which leads to secondary victimization.11 The curriculum must prepare learners for this psychological pressure, instilling "Golden Hour" protocols (discussed in Section 3.6) to mitigate damage rather than exacerbating it through panic.
+The "optimism bias" is another critical psychological factor. Users often believe that they are too smart to be phished or that their portfolio is too small to be targeted. The industrialization of "Wallet Drainers" like Angel Drainer and Inferno Drainer proves this false; these automated scripts target any wallet that interacts with them, regardless of size, often stealing thousands of small amounts that aggregate to millions.12
+3.2 The Mathematics of Identity: Cryptographic Primitives
+Learners must grasp that a "wallet" does not store tokens; it stores keys. The tokens live on the ledger; the wallet is merely the keychain and the signing device. A rigorous understanding of the underlying mathematics strips away the "magic" of crypto and reveals the stark reality of access control.
+3.2.1 Public Key Cryptography (PKC) and Trapdoor Functions
+At the heart of this system is Asymmetric Encryption. The curriculum must define the relationship between the Private Key ($sk$) and the Public Key ($pk$).
+The Private Key is a randomly generated 256-bit integer. It is statistically impossible to guess, provided the entropy source is truly random. It is used to sign transactions, proving ownership without revealing the key itself.14 The Public Key is derived from the private key via Elliptic Curve Cryptography (specifically the secp256k1 curve for Bitcoin and Ethereum). It serves as the user's address (or mailbox).16
+The security of the entire system relies on the Trapdoor Function. While it is computationally trivial to derive the Public Key from the Private Key ($sk \rightarrow pk$), it is computationally infeasible to reverse the process ($pk \rightarrow sk$). This "one-way street" mathematics is what allows users to share their address openly while keeping their funds secure.16 Pedagogically, this can be illustrated using the "mixing paint" analogy: it is easy to mix red and blue to make purple, but impossible to un-mix purple back into red and blue.
+3.2.2 The BIP-39 Hierarchy and Derivation Paths
+Humans are notoriously bad at remembering 64-character hexadecimal strings. The BIP-39 standard was introduced to convert this entropy into a human-readable list of 12-24 words, known as the Seed Phrase or Secret Recovery Phrase.
+The Seed Phrase is not just a password; it is the Root Key. Through a process of hashing (PBKDF2), the seed phrase generates a "Master Extended Private Key" (xPriv). From this single master key, millions of child keys (and thus millions of wallet addresses) can be deterministically generated for different coins (Bitcoin, Ethereum, Solana) using specific Derivation Paths.19
+The pedagogical implication of this hierarchy is profound. Because the seed phrase is the root of all keys, compromising these 12-24 words grants an attacker access to every address on every chain derived from it. This explains why "sweeper bots" can drain a user's Bitcoin, Ethereum, and Optimism assets simultaneously within seconds of a seed phrase leak.21 Users must understand that "changing their password" (a Web2 concept) does not exist here; if the seed is compromised, the entire identity must be burned and abandoned.
+3.2.3 Case Studies in Irreversibility and Key Loss
+To cement the weight of this responsibility, the curriculum must examine high-profile failures that illustrate different vectors of key mismanagement.
+Stefan Thomas and the IronKey: Stefan Thomas, a programmer, has roughly 7,002 BTC (valued in the hundreds of millions) locked on an encrypted IronKey USB drive. He lost the paper with his password. The device is designed to wipe itself after ten incorrect attempts, and he has used eight. This case illustrates the "brittle" nature of self-custody—security so tight it locks out the owner.23 It serves as a warning against over-complicating security schemes without robust redundancy.
+The QuadrigaCX Collapse: In 2018, Gerald Cotten, the founder of the Canadian exchange QuadrigaCX, died unexpectedly. He was allegedly the sole holder of the private keys to the exchange's cold wallets, resulting in the loss of $190 million in customer funds.23 This highlights the risk of "Single Points of Failure" in key management and the necessity of "Multi-Signature" (Multisig) arrangements for institutional or large-value custody.
+The Reddit Developer (tycooperaow): A user accidentally pushed their seed phrase to a public GitHub repository inside a code file. Within 100 seconds, automated bots scanning GitHub for mnemonic patterns identified the phrase, derived the keys, and drained $1,200. This demonstrates the speed and automation of modern adversarial tools; the "dark forest" is watching, and human error is punished instantly.21
+3.3 Wallet Typology: The Continuum of Connectivity
+Once the concept of keys is understood, the curriculum must categorize the tools used to manage them. The primary distinction is defined by connectivity: Hot (Online) vs. Cold (Offline).
+3.3.1 Hot Wallets and the Browser Vulnerability
+Hot wallets, such as MetaMask, Phantom, or mobile apps like Trust Wallet, generate and store private keys on a device connected to the internet. Their primary advantage is convenience; keys are readily available for signing dApp transactions. However, this convenience comes with a massive attack surface.
+If the host device (computer or smartphone) is infected with malware—such as RedLine Stealer or Rilide—the malware can extract the private keys from the browser's local storage or memory.12 These "infostealers" are often distributed through fake software downloads, malicious browser extensions, or pirated media. Once the malware exfiltrates the key file, the attacker can drain the wallet remotely without the user's interaction.
+Pedagogically, Hot Wallets must be framed with the "Walking Around Money" Rule: they should only hold amounts the user is willing to lose instantly, analogous to cash in a physical pocket.14
+3.3.2 The Cold Storage Standard: Hardware Wallets
+Hardware wallets (e.g., Ledger, Trezor, GridPlus) represent the gold standard for individual self-custody. They operate on the Air-Gap Principle: keys are generated inside a dedicated, isolated chip and never exposed to the host computer or the internet.
+When a user initiates a transaction on a computer, the unsigned data is sent to the hardware wallet via USB or Bluetooth. The user verifies the details on the hardware wallet's screen and physically presses a button to sign. The signed transaction—and only the signed transaction—is sent back to the computer. The private key remains chemically bound to the silicon of the device.20
+Secure Elements (SE): High-end devices utilize "Secure Element" chips (rated EAL5+ or EAL6+), similar to those found in passports and credit cards. These chips are hardened against physical extraction attacks, such as "power analysis" (measuring voltage changes to guess the key) or "fault injection" (using lasers to disrupt the chip's logic).20
+3.3.3 Comparative Analysis: Ledger vs. Trezor (2025 Landscape)
+A detailed comparison of the two market leaders helps learners understand the trade-offs between proprietary security and open-source transparency.
+
+
+Feature
+	Ledger (Stax / Flex / Nano X)
+	Trezor (Safe 5 / Model T)
+	Security Implication
+	Chip Architecture
+	Secure Element (EAL6+): Bank-grade chip resistant to physical hacking.
+	Secure Element (EAL6+): Newer models (Safe 5) now include an SE (Optiga Trust M) alongside the general-purpose MCU.
+	Both brands now offer robust physical protection, narrowing the historical gap. 20
+	Firmware Transparency
+	Closed Source Firmware: Relies on proprietary "BOLOS" OS. Only apps are open source.
+	Fully Open Source: Hardware and software designs are public.
+	Trezor allows for community audit (transparency), while Ledger relies on "security through obscurity" regarding the SE drivers. 26
+	Interface
+	E-Ink Touchscreen (Stax): Large, curved screen for clear data parsing.
+	Color OLED Touchscreen (Safe 5): Haptic feedback, large display.
+	Critical: Large screens prevent "Blind Signing" by displaying full transaction data. 20
+	Backup Mechanism
+	Standard BIP-39 + Optional "Ledger Recover" (Sharded backup via custodians).
+	Standard BIP-39 + Shamir Backup (SLIP-39).
+	Shamir (Trezor) splits the seed into multiple unique shares (e.g., need 2 of 3) to eliminate single points of failure without trusting third parties. 26
+	The "Blind Signing" Risk:
+A critical pedagogical point is the danger of "Blind Signing." On devices with small screens (like older Ledger Nanos), users often cannot see the full details of a complex smart contract interaction (e.g., a Seaport order). They are forced to click "Approve" based on trust in the computer screen—which may be compromised by malware swapping the address. Newer devices like the Ledger Stax and Trezor Safe 5 emphasize "Clear Signing," parsing the transaction data to show exactly what is being signed (e.g., "You are approving OpenSea to spend 1 Bored Ape").28
+3.4 Advanced Operational Security (OpSec): The Hygiene of Survival
+Possessing a hardware wallet is necessary but insufficient. In the 2024–2025 landscape, the vast majority of thefts did not involve breaking the encryption of the wallet; they involved tricking the user into voluntarily signing a malicious transaction. This is the realm of Social Engineering and OpSec.
+3.4.1 The "Infinite Approval" Trap
+The ERC-20 token standard requires a two-step process for decentralized applications (dApps) to move user funds:
+1. Approve: The user grants the dApp's smart contract permission to spend a specific amount of tokens.
+2. TransferFrom: The dApp executes the transfer logic.
+To save gas fees and improve user experience, many dApps default to requesting "Infinite Approval"—setting the allowance to the maximum possible integer (2^256 - 1).
+* The Risk: If the dApp's smart contract is exploited or upgraded maliciously years later, the attacker can use that lingering approval to drain the user's wallet of that specific token without any further interaction from the user.29
+Case Study: Socket/Bungee (Jan 2024): The Socket interoperability protocol was exploited due to a vulnerability in a newly added route. Attackers utilized users' existing infinite approvals to drain $3.3 million in USDC and ETH. Users who had approved the contract months prior for legitimate bridging were drained instantly.31
+Case Study: LI.FI (July 2024): A similar exploit in the LI.FI protocol resulted in $11 million drained. The root cause was an arbitrary call vulnerability, but the enabler was the infinite approvals users had granted to the protocol.33
+Mitigation: The curriculum must enforce the regular use of tools like Revoke.cash. Users should audit their allowances weekly and revoke permissions for dApps they are no longer using. The principle of "Least Privilege" must apply: users should edit the approval amount to match only the exact amount needed for the trade, even if it costs more gas in the long run.36
+3.4.2 Weaponized Signatures: Permit, Permit2, and Phishing 2.0
+As gas fees on Ethereum rose, developers introduced EIP-2612 (Permit) and Permit2. These standards allow users to sign an approval off-chain (gasless), which the dApp then submits on-chain. While efficient, this has been weaponized by "Drainer" services.
+The Mechanism: Phishers use kits like Angel Drainer or Inferno Drainer. These kits pop up a signature request that mimics a benign "Verify you are human" or "Login" prompt. However, the underlying data is a Permit signature. Once the user signs the garbled text string, the attacker takes the signature, submits it to the blockchain, and gains instant approval to spend the user's tokens.12
+Case Study: The $55M DAI Whale (Aug 2024): A crypto whale lost $55 million in DAI in a single transaction. They were tricked into signing a transaction that transferred ownership of their MakerDAO DSProxy (a smart contract vault) to the attacker. This was a sophisticated phishing attack that bypassed the hardware wallet's protection because the user authorized the transfer, believing it was a routine interaction.40
+Pedagogical Insight: Security education must shift from "Protect your Seed Phrase" to "Scrutinize what you sign." Users must be taught to recognize the structure of SetOwner, SetApprovalForAll, and Permit signatures and to reject any signature request they did not explicitly initiate.
+3.4.3 Address Poisoning and Clipboard Hijacking
+Attackers exploit user laziness and the complexity of hexadecimal addresses.
+* Address Poisoning: An attacker generates a "vanity address" that matches the first and last 4-6 characters of a user's frequent counterparty (e.g., their own Binance deposit address). The attacker sends a $0 transaction (or a spam token) to the user's wallet. The user, seeing the transaction in their history, assumes it is their own address. When they next need to send funds, they copy the address from the transaction history—inadvertently copying the attacker's address and sending funds to the void.9
+* Mitigation: The curriculum must teach the "Middle Verification" rule: always check the middle characters of an address, not just the start and end. Use Address Books or Whitelists, and never copy-paste blindly from transaction history.
+3.5 The Future of Access: Account Abstraction and EIP-7702
+The rigidity of Externally Owned Accounts (EOAs—standard private key wallets) has led to the development of "Smart Accounts." The Pectra upgrade (May 2025) introduced EIP-7702, a game-changer for access logic that brings both superpowers and super-risks.42
+3.5.1 Mechanics of EIP-7702: The Hybrid Account
+EIP-7702 introduces a new transaction type (0x04) that allows an EOA to temporarily delegate its code execution to a smart contract.44
+* The Benefit: A standard MetaMask user can now enjoy "Smart Wallet" features without moving funds to a new address. This includes Batching (approve + swap in one click), Gas Sponsorship (dApps paying fees), and Social Recovery (restoring access via trusted guardians).
+* The Mechanism: The user signs an authorization_list that effectively says, "For this transaction (or session), treat my account as if it has this smart contract code."
+3.5.2 The "CrimeEnjoyor" Vector: Authorization as an Attack Surface
+While designed to improve UX, EIP-7702 created a terrifying new phishing vector. Because users can delegate control of their EOA to any contract, attackers began creating malicious delegate contracts.
+Wintermute Report (Sep 2025): A startling study found that 48% of all EIP-7702 authorizations were linked to criminal activity. Attackers were deploying contracts labeled "CrimeEnjoyor"—sweepers that, once authorized by a victim, would instantly drain any asset deposited into the victim's wallet.3
+* Persistence Risk: Unlike a one-time transaction, if a user authorizes a malicious delegate indefinitely, the attacker effectively owns the logic of the user's wallet. They can rewrite the rules of how the wallet behaves, bypassing future security checks or setting up "shadow" permissions.46
+Case Study: World Liberty Financial (WLFI) Launch: During the launch of the WLFI token, phishers tricked users into signing EIP-7702 delegations under the guise of "claiming" tokens. Once authorized, the malicious delegates swept the newly acquired tokens immediately, causing chaos and significant losses.47
+Pedagogical Implication: Users must now treat "Delegation Requests" with the same extreme caution as Seed Phrases. The curriculum must teach users how to inspect delegation payloads and verify the chain_id and contract address before signing.
+3.6 The Human Layer: Social Engineering and Crisis Management
+In the "Access Layer," the human is the vulnerability. In 2025, social engineering has evolved from generic email spam to targeted, AI-enhanced psychological warfare.
+3.6.1 Deepfakes and "Pig Butchering"
+* Pig Butchering: This is a long-con scam where attackers build a relationship (romantic or professional) with the victim over months ("fattening the pig") before convincing them to invest in a fake crypto platform. These scams have industrialized, often operating out of compounds in Southeast Asia, and accounted for billions in losses in 2024-2025.1
+* AI Deepfakes: Attackers now use AI to clone the voices and faces of trusted figures (e.g., Elon Musk, Brad Garlinghouse) or even family members to solicit funds. A report from cybersecurity firm Right-Hand noted a 1,633% increase in deepfake voice phishing in Q1 2025.9
+3.6.2 Crisis Management: The "Golden Hour" Protocols
+When prevention fails, response speed is the only variable that matters. The curriculum must drill these protocols:
+1. Disconnect: If a hot wallet behaves suspiciously, immediately disconnect the device from the internet to sever the connection to the malware's Command & Control (C2) server.
+2. Revoke: If the Seed Phrase is safe but a specific dApp is draining funds via an allowance, use a secondary clean device to call Revoke.cash and cancel the permission.37
+3. The "Sweeper" Reality: If the Seed Phrase is compromised, attackers will install "sweeper bots." These scripts monitor the mempool and instantly transfer out any ETH sent to the wallet (even ETH sent to pay for gas to rescue other tokens).
+   * Counter-measure: Flashbots. Advanced users can use Flashbots to bundle a "rescue" transaction (moving tokens) with a "funding" transaction (paying gas) in a private block, bypassing the public mempool where sweepers watch.48
+3.6.3 The Forensic Reality Check
+Learners must be disabused of the notion that "Crypto Recovery Services" can help.
+* The Scam within a Scam: The FBI and FTC report that the vast majority of services claiming to recover stolen crypto are secondary scams targeting desperate victims.11
+* True Forensics: Legitimate firms like Chainalysis, TRM Labs, and Elliptic work with law enforcement and exchanges, not individuals. They trace funds to centralized choke points (exchanges) where they might be frozen.50 For the average user, stolen funds are effectively gone.
+3.7 Regulatory and Institutional Context
+Understanding the regulatory landscape helps users anticipate compliance requirements and the long-term viability of their custodial choices.
+* The GENIUS Act (July 2025): The "Guiding and Establishing National Innovation for U.S. Stablecoins" Act introduced a federal licensing regime for stablecoins, mandating 1:1 reserves and prohibiting rehypothecation. This impacts users by clarifying which stablecoins are legally "safe" to hold in self-custody.52
+* SEC "Project Crypto": Under Chairman Atkins, the SEC has moved toward a formal token taxonomy, distinguishing between "Digital Commodities" and "Tokenized Securities." This framework aims to provide clarity, but also signals increased enforcement against non-compliant DeFi interfaces.54
+* NIST Guidelines: The National Institute of Standards and Technology has updated its digital identity guidelines to include post-quantum cryptography standards (CRYSTALS-Kyber), signaling a future shift in hardware wallet specifications to resist quantum decryption threats.56
+4. Pedagogical Outlook: Assessment and Competency
+To ensure competency, this module should conclude with rigorous practical assessments that challenge the learner's mental models and operational reflexes.
+4.1 Scenario-Based Simulations
+* The "Spot the Phish" Challenge: Present learners with side-by-side screenshots of a legitimate Uniswap Permit request and a malicious Angel Drainer request. The key indicators (e.g., "SetApprovalForAll" on an unknown contract, non-standard spender addresses) must be identified.58
+* The "Revocation Drill": Have learners connect to a testnet version of Revoke.cash. They must identify which approvals pose "Infinite" risks vs. "Limited" risks and execute revocations for compromised contracts.
+4.2 Mental Model Stress Tests
+* Question: "You lost your Ledger Nano X in a house fire. Is your crypto lost?"
+   * Correct Answer: No. The crypto is on the blockchain. The Seed Phrase (stored in a fireproof metal backup) is the true wallet; the device was just a window.
+* Question: "You authorized a malicious dApp on your Hot Wallet. You immediately factory reset your computer. Are you safe?"
+   * Correct Answer: No. The authorization is on-chain. The dApp can still drain your wallet even if your computer is destroyed. You must broadcast a revocation transaction on the blockchain.
+Conclusion
+The "Access Layer" is the most unforgiving component of the DeFi stack. While protocols may offer yield and utility, they rely entirely on the user's ability to maintain the integrity of their cryptographic keys and the purity of their operational environment. By mastering the concepts of self-custody, hardware isolation, and signature scrutiny—and understanding the double-edged nature of innovations like EIP-7702—learners transform from vulnerable targets into sovereign participants in the digital economy.
+The curriculum must emphasize that in Web3, paranoia is not a pathology; it is a prerequisite for survival.
+________________
+Glossary of Key Terms for Section 3
+Term
+	Definition
+	Air-Gap
+	A security measure where a device is physically isolated from unsecured networks (e.g., the internet), ensuring no remote access is possible.
+	BIP-39
+	The industry standard for converting a 256-bit private key into a human-readable mnemonic seed phrase (12-24 words).
+	EIP-7702
+	An Ethereum upgrade allowing Externally Owned Accounts (EOAs) to temporarily delegate execution logic to smart contracts, enabling features like batching and sponsorship.
+	Infinite Approval
+	Granting a smart contract permission to spend an unlimited amount of a specific token (typically set to 2^256-1).
+	Permit2
+	A token approval standard allowing for gasless, signature-based approvals with built-in expiration times and batched permissions.
+	Secure Element (SE)
+	A tamper-resistant chip (rated EAL5+ or higher) designed to host secure applications and store confidential cryptographic data, protecting against physical hacking.
+	Seed Phrase
+	A 12-24 word representation of a wallet's master private key, used to restore access to all derived accounts. Also known as a Secret Recovery Phrase.
+	Sweeper Bot
+	An automated script that monitors the mempool for transactions from a compromised wallet and instantly transfers out any assets (or ETH sent for gas).
+	Trapdoor Function
+	A mathematical function that is easy to compute in one direction (Private Key $\to$ Public Key) but computationally infeasible to reverse.
+	Works cited
+1. 2025 Crypto Crime Mid-year Update: Stolen Funds Surge as DPRK Sets New Records, accessed December 3, 2025, https://www.chainalysis.com/blog/2025-crypto-crime-mid-year-update/
+2. Crypto Hack Losses in First Half of 2025 Exceed 2024 Total - Infosecurity Magazine, accessed December 3, 2025, https://www.infosecurity-magazine.com/news/crypto-hack-losses-half-exceed-2024/
+3. 48% of Ethereum EIP-7702 uses linked to crime, says Wintermute - Protos, accessed December 3, 2025, https://protos.com/48-of-ethereum-eip-7702-uses-linked-to-crime-says-wintermute/
+4. Top 10 Crypto Scams to Watch Out For in 2025 - SoFi, accessed December 3, 2025, https://www.sofi.com/learn/content/top-crypto-scams-to-watch-out-for/
+5. Wintermute Warns About Security Risks in Ethereum's EIP-7702 Implementation, accessed December 3, 2025, https://www.blocmates.com/news-posts/wintermute-warns-about-security-risks-in-ethereum-s-eip-7702-implementation
+6. Wallet Security: The 'Non-Custodial' Fallacy - a16z crypto, accessed December 3, 2025, https://a16zcrypto.com/posts/article/wallet-security-non-custodial-fallacy/
+7. Introduction to the custody of digital assets: how do you secure your Bitcoin keys yourself?, accessed December 3, 2025, https://www.bitstack-app.com/en/learn-bitcoin/introduction-to-self-custody-how-to-secure-your-bitcoins
+8. Decentralized Finance is Booming — So Are the Security Risks, accessed December 3, 2025, https://www.gatech.edu/news/2025/05/08/decentralized-finance-booming-so-are-security-risks
+9. The State of Crypto Scams in 2025 - Ledger, accessed December 3, 2025, https://www.ledger.com/academy/topics/security/the-state-of-crypto-scams-in-2025
+10. The Psychology of Crypto Crises: Understanding Investor Behavior During Exchange Failures - ResearchGate, accessed December 3, 2025, https://www.researchgate.net/publication/397796152_The_Psychology_of_Crypto_Crises_Understanding_Investor_Behavior_During_Exchange_Failures
+11. Join a Network - Vulnerability Saver traces and recovers USDT, accessed December 3, 2025, https://nucleus.iaea.org/sites/connect/Lists/Join%20a%20Network/DispForm.aspx?ID=131106&ContentTypeId=0x0100142184A310520649BEC12EAF34EBE8FE
+12. Web3 Crypto Malware: Angel Drainer - Overview, Variants & Stats - Sucuri Blog, accessed December 3, 2025, https://blog.sucuri.net/2024/02/web3-crypto-malware-angel-drainer.html
+13. Wallet drainer malware stole $500M worth of crypto in 2024 - Moonlock, accessed December 3, 2025, https://moonlock.com/wallet-drainer-crypto-theft-2024
+14. Crafting DeFi Curriculum Prompt
+15. As an analogy to asymmetric key encryption, does the following work? If not why not?, accessed December 3, 2025, https://crypto.stackexchange.com/questions/80839/as-an-analogy-to-asymmetric-key-encryption-does-the-following-work-if-not-why
+16. Public Key Cryptography Simply Explained - Hackernoon, accessed December 3, 2025, https://hackernoon.com/public-key-cryptography-simply-explained-e932e3093046
+17. A Beginner's Guide to Public-Key (asymmetric) Cryptography | by Harshith Gowda - Medium, accessed December 3, 2025, https://medium.com/@harshithgowdakt/a-beginners-guide-to-public-key-asymmetric-cryptography-d6d1c8e94b1f
+18. How does public key cryptography work? | Public key encryption and SSL - Cloudflare, accessed December 3, 2025, https://www.cloudflare.com/learning/ssl/how-does-public-key-encryption-work/
+19. Stop Pretending Bitcoin Self Custody Is Easy, It's Not, accessed December 3, 2025, https://bitcoinmagazine.com/technical/stop-pretending-bitcoin-self-custody-is-easy
+20. Trezor Safe 5 | Secure Crypto Hardware Wallet, accessed December 3, 2025, https://trezor.io/trezor-safe-5
+21. Reddit User Left Seed Phrase in GitHub Code and Lost Tokens | by Marko Vidrih - Medium, accessed December 3, 2025, https://medium.com/thecapital/reddit-user-left-seed-phrase-in-github-code-and-lost-tokens-f273a73f51d7
+22. Lost My Crypto — Ledger Wallet Compromised Despite Never Sharing Seed Phrase : r/ledgerwallet - Reddit, accessed December 3, 2025, https://www.reddit.com/r/ledgerwallet/comments/1odnsm3/lost_my_crypto_ledger_wallet_compromised_despite/
+23. Crypto Catastrophe: True Stories of Fortunes That Vanished - 24/7 Wall St., accessed December 3, 2025, https://247wallst.com/military/2025/10/08/crypto-catastrophe-true-stories-of-fortunes-that-vanished/
+24. Crypto Wallet Security Checklist 2025: Protect Crypto with Ledger, accessed December 3, 2025, https://www.ledger.com/academy/topics/security/crypto-wallet-security-checklist-2025-protect-crypto-with-ledger
+25. The Largest Cryptocurrency Hacks So Far - Investopedia, accessed December 3, 2025, https://www.investopedia.com/news/largest-cryptocurrency-hacks-so-far-year/
+26. Ledger vs. Trezor: Investor's Guide 2025 - CoinLedger, accessed December 3, 2025, https://coinledger.io/tools/ledger-vs-trezor
+27. Trezor Safe 5 vs Ledger Stax - Bitbo, accessed December 3, 2025, https://bitbo.io/tools/trezor-5-vs-ledger-stax/
+28. Crypto Safety 2025: 7 Proven Habits to Avoid Hacks, Drainers, and Scams - Medium, accessed December 3, 2025, https://medium.com/@marketing_30381/crypto-safety-2025-7-proven-habits-to-avoid-hacks-drainers-and-scams-063892d24a2c
+29. Infinite Approval Meaning in Crypto - Tangem, accessed December 3, 2025, https://tangem.com/en/glossary/infinite-approval/
+30. Ethereum Token Approvals Explained - OneKey, accessed December 3, 2025, https://onekey.so/blog/ecosystem/ethereum-token-approvals-explained/
+31. Socket Tech Incident Analysis - CertiK, accessed December 3, 2025, https://www.certik.com/resources/blog/socket-tech-incident-analysis
+32. Socket says Bungee protocol exploited as funds worth at least $3.3 million appear to be stolen | The Block, accessed December 3, 2025, https://www.theblock.co/post/272986/socket-says-bungee-protocol-exploited
+33. LI.FI publishes incident report about nearly $12 million hack, blames 'human error, accessed December 3, 2025, https://www.theblock.co/post/306198/li-fi-publishes-incident-report-about-nearly-12-million-hack-blames-human-error
+34. LI.FI loses estimated $9 million in exploit | The Block, accessed December 3, 2025, https://www.theblock.co/post/305666/li-fi-loses-estimated-9-million-in-exploit
+35. Web3 Security Auditor's 2024 Rewind - OpenZeppelin, accessed December 3, 2025, https://www.openzeppelin.com/news/web3-security-auditors-2024-rewind
+36. Security PSA: Infinite Token Approvals - Coinbase, accessed December 3, 2025, https://www.coinbase.com/blog/security-ps-infinite-token-approvals
+37. Revoke.cash: Revoke Your Token Approvals on Over 100 Networks, accessed December 3, 2025, https://revoke.cash/
+38. Understanding Token Approvals: Benefits, Risks and Best Practices, accessed December 3, 2025, https://blog.ambire.com/understanding-token-approvals/
+39. Understanding Ethereum Token Approvals - Ledger Support, accessed December 3, 2025, https://support.ledger.com/article/Ethereum-Token-Approvals-Explained
+40. Crypto whale loses $55 million in Dai stablecoin to phishing attack - The Block, accessed December 3, 2025, https://www.theblock.co/post/312326/hacking-55-million-dai-inferno-drainer
+41. $35 million worth of tokens drained from a crypto whale in phishing attack | The Block, accessed December 3, 2025, https://www.theblock.co/post/320645/35-million-worth-of-tokens-drained-from-a-crypto-whale-in-phishing-attack
+42. Ethereum Pectra Upgrade: Everything you need to know - Consensys, accessed December 3, 2025, https://consensys.io/ethereum-pectra-upgrade
+43. Ethereum Pectra Upgrade: Key Improvements and Impact | Quicknode Guides, accessed December 3, 2025, https://www.quicknode.com/guides/ethereum-development/ethereum-upgrades/pectra-upgrade
+44. A Comprehensive EIP-7702 Guide for Apps - Biconomy Blog, accessed December 3, 2025, https://blog.biconomy.io/a-comprehensive-eip-7702-guide-for-apps/
+45. EIP-7702 : A New Era in Account Abstraction - QuillAudits, accessed December 3, 2025, https://www.quillaudits.com/blog/smart-contract/eip7702-new-era-in-account-abstraction
+46. AI Phishing Series: Part 2 - Inside Wallet Drainers and EIP-7702 Exploits, accessed December 3, 2025, https://threesigma.xyz/blog/opsec/ai-phishing-wallet-drainers-eip7702-part-2
+47. EIP-7702 Delegate Phishing Exploit Drains WLFI Tokens on Launch Day - Spectrum Search, accessed December 3, 2025, https://spectrum-search.com/insights/eip-7702-delegate-phishing-exploit-drains-wlfi-tokens-on-launch-day
+48. eip-7702 News and Articles - ChainCatcher, accessed December 3, 2025, https://www.chaincatcher.com/en/tags/eip-7702
+49. Bitcoin Scam Recovery: Recover Money from Fraudulent Crypto Scammers - iRIC Software, accessed December 3, 2025, https://i-ric.org/en/forum/cryptocurrency-tracing-and-recovery-bitcoin-scam-recovery-recover-money-from-fraudulent-crypto-scammers/
+50. Stablecoin Security Risks in 2025: Full Risk Assessment Guide - Elliptic, accessed December 3, 2025, https://www.elliptic.co/blockchain-basics/stablecoin-2025-risk-assessment-guide
+51. 2025 Crypto Crime Report | TRM Labs, accessed December 3, 2025, https://www.trmlabs.com/reports-and-whitepapers/2025-crypto-crime-report
+52. GENIUS Act 2025: Stablecoin Compliance Checklist - Hacken.io, accessed December 3, 2025, https://hacken.io/discover/genius-act-security-compliance-checklist/
+53. Decoding the SEC's Bold New Crypto Regulatory Framework, accessed December 3, 2025, https://aifundservices.com/sec-crypto-regulatory-framework
+54. Breaking Down “Project Crypto”: SEC Chairman Atkins Outlines Next Phase of Digital Asset Oversight - Sidley Austin LLP, accessed December 3, 2025, https://www.sidley.com/en/insights/newsupdates/2025/11/breaking-down-project-crypto-sec-chairman-atkins-outlines-next-phase-of-digital-asset-oversight
+55. SEC Chair Outlines “Project Crypto” — A Framework for Digital Asset Regulation, accessed December 3, 2025, https://www.freewritings.law/2025/11/sec-chair-outlines-project-crypto-a-framework-for-digital-asset-regulation/
+56. Cybersecurity and privacy | NIST - National Institute of Standards and Technology, accessed December 3, 2025, https://www.nist.gov/cybersecurity-and-privacy
+57. Proposal for a Regulatory Framework for Digital Assets: An Ethical and Inclusive Infrastructure for Market Integrity and Investor Protection - SEC.gov, accessed December 3, 2025, https://www.sec.gov/files/ctf-written-sec-proposal-digital-asset-09-08-2025.pdf
+58. The Evolving Threat of Deceptive Crypto Wallets (2025) | Point Wild, accessed December 3, 2025, https://www.pointwild.com/threat-intelligence/the-evolving-threat-of-deceptive-crypto-wallets

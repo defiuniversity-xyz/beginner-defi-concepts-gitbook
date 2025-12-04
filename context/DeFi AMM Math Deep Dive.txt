@@ -1,0 +1,419 @@
+﻿Module 4: Financial Primitives I – The Mathematics of Decentralized Exchange
+4.1. Introduction: The Deterministic Liquidity Paradigm
+4.1.1. The Historical Necessity of the Automated Market Maker
+The evolution of Decentralized Finance (DeFi) is fundamentally a story of overcoming the limitations of distributed ledger technology to recreate efficient financial markets. In traditional finance (TradFi) and centralized crypto exchanges (CeFi), the dominant primitive for price discovery and liquidity provision is the Central Limit Order Book (CLOB). This mechanism relies on a high-throughput matching engine to pair discrete buy and sell orders (limit orders) at specific price points, creating a bid-ask spread.1
+However, the transposition of the CLOB model onto early Layer 1 blockchains, specifically Ethereum, proved catastrophically inefficient. The friction arose from the Gas-Latency-Liquidity Trilemma:
+1. Latency: Ethereum’s block time (approx. 12 seconds) creates a significant delay between order submission and execution. In a CLOB, market makers must constantly update their quotes to reflect external information. On a blockchain, this "blind time" exposes market makers to stale quote arbitrage, forcing them to widen spreads drastically to price in the optionality they are selling to the market.3
+2. Computational Cost (Gas): In a CLOB, every action—posting, cancelling, or modifying an order—constitutes a state change on the Ethereum Virtual Machine (EVM). This incurs a gas fee. Replicating the high-frequency churn of a traditional order book (where 90%+ of orders are cancelled) is economically prohibitive on a network where every operation has a marginal cost.4
+3. Throughput: With a throughput of roughly 15 transactions per second, Ethereum cannot support the order density required for a liquid CLOB. Early attempts like EtherDelta failed because the "cost to update" was infinite relative to the speed of price discovery.3
+This infrastructure mismatch necessitated a "zero-to-one" innovation: the Automated Market Maker (AMM). The AMM abandons the order book entirely. Instead of matching a buyer with a seller, the AMM allows users to trade against a smart contract—a liquidity pool—that prices assets deterministically according to a mathematical conservation function, or invariant.4 This "peer-to-pool" model transforms market making from an active, high-frequency profession into a passive, algorithmic deployment of capital, enabling 24/7 liquidity without the need for centralized intermediaries or professional market makers.2
+4.1.2. Module Scope and Learning Objectives
+This module serves as a comprehensive technical deep-dive into the mathematical and game-theoretic foundations of the Constant Product Market Maker (CPMM), the specific AMM variant popularized by Uniswap V2. It is designed for protocol architects, smart contract engineers, and quantitative researchers who require a granular understanding of how these systems function at the EVM level.
+By the conclusion of this module, the learner will be able to:
+* Derive the Conservation Mechanics: Mathematically prove how the $x \cdot y = k$ invariant guarantees infinite liquidity and construct the price discovery mechanism from first principles.
+* Master Execution Mathematics: Calculate exact swap outputs, inputs, and the impact of the 0.3% fee using integer arithmetic (Solidity), distinguishing rigorously between "Price Impact" and "Slippage."
+* Analyze Financial Risk: Deconstruct the "Impermanent Loss" phenomenon, proving its mathematical equivalence to a "Short Gamma" options strategy (Short Straddle), and evaluating the Liquidity Provider's (LP) payoff profile.
+* Model Adversarial Dynamics: Explain the mechanics of Maximal Extractable Value (MEV), specifically Sandwich Attacks, and how the deterministic nature of AMMs allows searchers to calculate optimal extraction vectors based on user slippage tolerances.
+* Navigate Edge Cases: Identify integration risks associated with Fee-on-Transfer tokens, rebasing assets, and the implementation of Time-Weighted Average Price (TWAP) oracles.
+________________
+4.2. The Mathematics of Conservation: Invariants and Geometry
+4.2.1. The Constant Product Invariant ($x \cdot y = k$)
+The foundational equation of the first generation of DeFi liquidity is the constant product formula. It is a conservation law enforced by the smart contract code: at all times (during a swap), the product of the reserves of the two assets in the pool must remain constant.7
+
+
+$$x \cdot y = k$$
+Where:
+* $x$ is the reserve quantity of Token A (e.g., ETH).
+* $y$ is the reserve quantity of Token B (e.g., USDC).
+* $k$ is the invariant constant (the "product").8
+The visual representation of this equation on a Cartesian plane (where $x$ is the horizontal axis and $y$ is the vertical axis) is a rectangular hyperbola located in the first quadrant.6 This geometric shape is not accidental; it was chosen to act as a mechanism for automatic price discovery and infinite liquidity.
+The Concept of Infinite Liquidity:
+A critical property of the hyperbola $y = k/x$ is that it is asymptotic to the axes. As $x \to 0$, $y \to \infty$. This means that as a trader buys more and more of Token A (reducing the pool's reserve $x$), the amount of Token B they must pay ($y$) increases exponentially. The curve never touches the axis, implying that the pool can never be completely drained of one asset through trading alone (assuming an infinite supply of the counter-asset). There is always a price at which the pool is willing to sell, no matter how scarce the asset becomes.10 This contrasts with a CLOB, where liquidity can dry up completely if there are no sell orders in the book.
+4.2.2. Alternative Invariants: Contextualizing CPMM
+To appreciate the CPMM, one must contrast it with other potential invariants:
+
+
+Invariant Type
+	Formula
+	Geometric Shape
+	Characteristics
+	Constant Product (CPMM)
+	$x \cdot y = k$
+	Hyperbola
+	Infinite liquidity; price adapts automatically; significant slippage for large trades.6
+	Constant Sum (CSMM)
+	$x + y = k$
+	Straight Line
+	Zero slippage (constant price); liquidity is finite (pool can be drained if market price deviates).6
+	Constant Mean (CMMM)
+	$( \Pi x_i^{w_i} ) = k$
+	Weighted Hyperbola
+	Allows for multi-asset pools (Balancer) and uneven weightings (e.g., 80/20 pools).6
+	Stableswap (Hybrid)
+	$\chi D^{n-1} \sum x_i + \prod x_i = \dots$
+	Flattened Hyperbola
+	Combines constant sum (low slippage near parity) and constant product (infinite liquidity at tails). Used by Curve.6
+	The CPMM represents a "middle ground" optimization: it sacrifices the zero-slippage of the Constant Sum model to gain the solvency guarantees of infinite liquidity, making it the most robust general-purpose primitive for volatile assets.
+4.2.3. The Marginal (Spot) Price
+In a CPMM, the smart contract does not rely on external price feeds (oracles). The price is endogenous. The Spot Price ($P$) of Asset A in terms of Asset B is defined as the instantaneous rate of exchange for an infinitesimally small trade. Mathematically, this corresponds to the absolute value of the slope of the tangent line to the bonding curve at the current reserve point $(x, y)$.10
+Differentiating the invariant $x \cdot y = k$ with respect to $x$:
+
+
+
+
+$$\frac{d}{dx}(x \cdot y) = \frac{d}{dx}(k)$$
+
+
+Using the product rule ($u'v + uv'$):
+
+
+
+
+$$(1 \cdot y) + (x \cdot \frac{dy}{dx}) = 0$$
+
+
+$$\frac{dy}{dx} = -\frac{y}{x}$$
+The magnitude of the slope is $\frac{y}{x}$. Thus, the spot price $P$ is simply the ratio of the reserves:
+
+
+
+
+$$P_{A/B} = \frac{Reserve_B}{Reserve_A}$$
+Implication: If a pool holds 10 ETH and 30,000 USDC, the price of ETH is automatically $30,000 / 10 = 3,000$ USDC.
+This creates a dependency on arbitrageurs. If the external market price of ETH rises to 3,100 USDC, the AMM is essentially selling ETH too cheaply (at 3,000). Arbitrageurs will buy ETH from the pool (decreasing $x$, increasing $y$) until the ratio $y/x$ equals 3,100. This mechanism keeps the AMM price pegged to the wider market without any centralized intervention.3
+________________
+4.3. Execution Dynamics: The Mathematics of Swaps
+4.3.1. Theoretical Swap Derivation (No Fees)
+When a user executes a trade, they are moving the pool's state from one point on the hyperbola to another. Let us derive the formula for the output amount $\Delta y$ given an input amount $\Delta x$.
+1. Initial State: $x_{start} \cdot y_{start} = k$
+2. Trade Execution: The user adds $\Delta x$ to the pool. The new reserve of $x$ becomes $x_{end} = x_{start} + \Delta x$.
+3. Invariant Constraint: To maintain the constant $k$, the reserve of $y$ must decrease to a new value $y_{end}$.
+
+$$(x_{start} + \Delta x) \cdot y_{end} = k$$
+$$y_{end} = \frac{k}{x_{start} + \Delta x}$$
+4. Calculate Output: The user receives the difference between the initial $y$ and the new $y$.
+
+$$\Delta y = y_{start} - y_{end}$$
+
+Substituting $y_{end}$:
+
+$$\Delta y = y_{start} - \frac{x_{start} \cdot y_{start}}{x_{start} + \Delta x}$$
+5. Simplify:
+
+$$\Delta y = y_{start} \left( 1 - \frac{x_{start}}{x_{start} + \Delta x} \right)$$
+$$\Delta y = y_{start} \left( \frac{x_{start} + \Delta x - x_{start}}{x_{start} + \Delta x} \right)$$
+$$\Delta y = \frac{y_{start} \cdot \Delta x}{x_{start} + \Delta x}$$
+This formula $\Delta y = \frac{y \Delta x}{x + \Delta x}$ is the theoretical core of all CPMM swaps.15
+4.3.2. Fee Integration and Integer Arithmetic
+In the real-world implementation of Uniswap V2, a 0.3% swap fee is applied. Crucially, this fee is deducted from the input amount before the invariant is applied. The fee is effectively "left behind" in the pool, increasing the reserves without minting new LP tokens, which causes $k$ to grow over time (this is how LPs earn yield).17
+Let $\gamma$ be the fee factor. For a 0.3% fee, 99.7% of the input is used for the swap. Thus $\gamma = 0.997$.
+The effective input becomes $\Delta x_{eff} = \Delta x \cdot 0.997$.
+Substituting this into the theoretical formula:
+
+
+
+
+$$\Delta y = \frac{y_{start} \cdot (\Delta x \cdot 0.997)}{x_{start} + (\Delta x \cdot 0.997)}$$
+Solidity Implementation (Fixed-Point Math):
+The Ethereum Virtual Machine (EVM) does not support floating-point numbers. Calculations must be performed using integers. To represent 0.997, Uniswap V2 multiplies by 997 and divides by 1000.
+To prevent precision loss, multiplication must be performed before division.
+The actual code in UniswapV2Library.sol for getAmountOut is:
+
+
+Solidity
+
+
+
+
+// given an input amount of an asset and pair reserves, returns the maximum output amount of the other asset
+function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) internal pure returns (uint amountOut) {
+   require(amountIn > 0, 'UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT');
+   require(reserveIn > 0 && reserveOut > 0, 'UniswapV2Library: INSUFFICIENT_LIQUIDITY');
+   uint amountInWithFee = amountIn.mul(997);
+   uint numerator = amountInWithFee.mul(reserveOut);
+   uint denominator = reserveIn.mul(1000).add(amountInWithFee);
+   amountOut = numerator / denominator;
+}
+
+.19
+Important Nuance: Integer division in Solidity truncates (floors) the result. This slight rounding error technically favors the pool (the user gets infinitesimally less), which protects the pool's solvency.
+4.3.3. Deriving the Input (Swap Tokens For Exact Tokens)
+Often, a user (or a smart contract) wants to buy an exact amount of Token B ($\Delta y$) and needs to know how much Token A ($\Delta x$) to send. We must rearrange the equation to solve for $\Delta x$.
+Starting from the fee-adjusted invariant:
+
+
+
+
+$$(x_{start} + \Delta x \cdot \gamma)(y_{start} - \Delta y) = x_{start} \cdot y_{start}$$
+Rearranging for $\Delta x$:
+
+
+
+
+$$x_{start} + \Delta x \cdot \gamma = \frac{x_{start} \cdot y_{start}}{y_{start} - \Delta y}$$
+
+
+$$\Delta x \cdot \gamma = \frac{x_{start} \cdot y_{start}}{y_{start} - \Delta y} - x_{start}$$
+
+
+$$\Delta x \cdot \gamma = x_{start} \left( \frac{y_{start}}{y_{start} - \Delta y} - 1 \right)$$
+
+
+$$ \Delta x \cdot \gamma = x_{start} \left( \frac{y_{start} - (y_{start} - \Delta y)}{y_{start} - \Delta y} \right) $$$$ \Delta x \cdot \gamma = \frac{x_{start} \cdot \Delta y}{y_{start} - \Delta y}$$
+
+
+
+
+$$\Delta x = \frac{x_{start} \cdot \Delta y}{(y_{start} - \Delta y) \cdot \gamma}$$
+Converting to Solidity integer math (where $\gamma = 997/1000$):
+
+
+
+
+$$\Delta x = \frac{x_{start} \cdot \Delta y \cdot 1000}{(y_{start} - \Delta y) \cdot 997} + 1$$
+Note the + 1: Since integer division truncates, simply calculating the division might result in a number slightly lower than required to satisfy the invariant. To ensure the trade succeeds, Uniswap adds 1 wei to the required input amount (ceiling division).19
+4.3.4. Price Impact vs. Slippage: A Critical Distinction
+In DeFi curriculum, it is imperative to distinguish between Price Impact and Slippage. They are often conflated by users, but they represent distinct mathematical phenomena arising from different sources.
+Feature
+	Price Impact
+	Slippage (Slippage Tolerance)
+	Source
+	Endogenous (The User's Trade)
+	Exogenous (The Market/Latency)
+	Cause
+	The curvature of the constant product hyperbola.
+	Latency between transaction signing and block inclusion.
+	Predictability
+	Deterministic (calculable pre-trade).
+	Probabilistic (depends on pending mempool activity).
+	Calculation
+	$\frac{P_{execution} - P_{spot}}{P_{spot}}$
+	$\frac{P_{realized} - P_{quoted}}{P_{quoted}}$
+	Price Impact:
+This is the penalty a user pays for consuming liquidity. Because the bonding curve is convex, the more you buy, the more expensive each marginal token becomes. A user buying 1% of the pool's liquidity will shift the price significantly. This is not a "loss" due to error; it is the mathematical cost of moving along the curve.22
+   * Rule of Thumb: For a CPMM, the price impact is roughly double the trade size relative to the pool size (e.g., a trade size of 1% of reserves incurs ~2% price impact).
+Slippage:
+This is the risk that the price changes while the transaction is in flight. If Alice sends a transaction when ETH is $3000, but before her transaction is mined, Bob sells a massive amount of ETH, the pool's reserves change. Alice's trade might execute at $2990. Slippage tolerance is a safety parameter (amountOutMin) the user sets to define the worst execution price they are willing to accept.24
+________________
+4.4. Risk Analysis I: The Liquidity Provider's Dilemma
+4.4.1. Impermanent Loss (Divergence Loss)
+"Impermanent Loss" (IL) is the most misunderstood concept in DeFi. A more accurate term is Divergence Loss. It measures the opportunity cost of holding tokens in an AMM liquidity pool versus holding them in a wallet (HODL).27
+The Mechanism:
+The AMM is an automated contrarian.
+   * If the price of Token A rises relative to Token B, the AMM sells Token A (to arbitrageurs) and buys Token B. The LP ends up with less of the winning asset.
+   * If the price of Token A falls, the AMM buys Token A (from arbitrageurs) and sells Token B. The LP ends up with more of the losing asset.
+   * In both cases, the AMM is "selling the winner" and "buying the loser." This rebalancing drag ensures that the value of the LP tokens will always be lower than the value of the unpooled assets, assuming the price ratio has changed.3
+The loss is "impermanent" only if the price ratio returns to the exact level at which liquidity was deposited. If the LP withdraws liquidity while the price is divergent, the loss becomes permanent.27
+4.4.2. Deriving the IL Formula
+Let us derive the formula from first principles.27
+Definitions:
+   * $P_0$: Initial price of Token A in terms of Token B ($y/x$).
+   * $P_1$: Future price of Token A in terms of Token B.
+   * $d$: The price divergence ratio ($P_1 / P_0$).
+   * $k$: Constant product ($x \cdot y$).
+State 1 (Initial):
+Value of LP portfolio in terms of Token B ($V_{LP\_0}$):
+
+
+
+
+$$V_{LP\_0} = y_0 + x_0 P_0$$
+
+
+Since $y = xP$, we know $y_0 = x_0 P_0$, so:
+
+
+
+
+$$V_{LP\_0} = 2 y_0$$
+State 2 (Future):
+The price changes to $P_1$. Arbitrageurs rebalance the pool.
+New quantities $x_1, y_1$:
+
+
+
+
+$$x_1 = \sqrt{k / P_1}$$
+
+
+$$y_1 = \sqrt{k \cdot P_1}$$
+Value of LP Portfolio ($V_{LP\_1}$):
+
+
+
+
+$$V_{LP\_1} = y_1 + x_1 P_1 = \sqrt{k P_1} + \sqrt{k/P_1} \cdot P_1 = 2\sqrt{k P_1}$$
+
+
+Since $k = x_0 y_0$ and $y_0 = x_0 P_0$, we can substitute $k = y_0^2 / P_0$:
+
+
+
+
+$$V_{LP\_1} = 2 \sqrt{\frac{y_0^2}{P_0} \cdot P_1} = 2 y_0 \sqrt{\frac{P_1}{P_0}} = 2 y_0 \sqrt{d}$$
+Value of HODL Portfolio ($V_{HODL\_1}$):
+If the LP had simply held $x_0$ and $y_0$ without pooling:
+
+
+
+
+$$V_{HODL\_1} = y_0 + x_0 P_1$$
+
+
+Substitute $x_0 = y_0 / P_0$:
+
+
+
+
+$$V_{HODL\_1} = y_0 + \frac{y_0}{P_0} P_1 = y_0 (1 + \frac{P_1}{P_0}) = y_0 (1 + d)$$
+The Ratio (IL):
+
+
+
+
+$$\frac{V_{LP\_1}}{V_{HODL\_1}} = \frac{2 y_0 \sqrt{d}}{y_0 (1 + d)} = \frac{2\sqrt{d}}{1+d}$$
+Final Formula:
+
+
+
+
+$$IL(d) = \frac{2\sqrt{d}}{1+d} - 1$$
+.27
+Table 4.2: Magnitude of Divergence Loss
+Price Change (d)
+	Impermanent Loss (%)
+	1.25x (+25%)
+	-0.6%
+	1.50x (+50%)
+	-2.0%
+	2.00x (+100%)
+	-5.7%
+	3.00x (+200%)
+	-13.4%
+	5.00x (+400%)
+	-25.5%
+	4.4.3. Financial Analogy: The "Short Gamma" Profile
+The payoff profile of an LP position is concave with respect to price. In derivatives theory, a position that suffers from large price movements (volatility) and profits from stability is known as Short Gamma.28
+Specifically, providing liquidity in a CPMM is mathematically analogous to holding a Short Straddle (selling a call option and selling a put option) with a continuous expiration.34
+   * The "Premium": The trading fees earned by the LP are analogous to the option premium collected by the straddle seller.
+   * The Risk: If the price moves significantly in either direction (up or down), the IL (loss on the option leg) exceeds the fees earned.
+   * Conclusion: Liquidity provision is not a passive yield strategy; it is a complex volatility trade. The LP is betting that Fees > Divergence Loss.32
+________________
+4.5. Risk Analysis II: Adversarial Markets and MEV
+4.5.1. The "Dark Forest" of the Public Mempool
+The blockchain is a transparent state machine. When a user submits a transaction, it sits in the mempool (memory pool) pending inclusion in a block. This creates an information asymmetry: sophisticated bots ("Searchers") can see the user's intent before it is executed. This environment is often referred to as the "Dark Forest".37
+The deterministic nature of the CPMM invariant ($x \cdot y = k$) allows searchers to simulate exactly how a pending transaction will impact the pool's price. This enables Maximal Extractable Value (MEV) strategies, the most common of which is the Sandwich Attack.
+4.5.2. Anatomy of a Sandwich Attack
+A sandwich attack exploits the user's Slippage Tolerance setting.
+The Sequence:
+   1. Victim Transaction ($T_V$): A user submits a large buy order for Token A with a 1% slippage tolerance. This means they are willing to accept 1% fewer tokens than the current spot price implies.
+   2. Front-Run ($T_F$): A searcher bot detects $T_V$. They submit a transaction to buy Token A before the victim, paying a higher gas fee (bribe) to the miner/validator to ensure ordering. This trade pushes the price of Token A up—exactly to the limit of the victim's 1% tolerance.
+   3. Victim Execution: $T_V$ executes. Because the price was artificially inflated by $T_F$, the victim receives the absolute minimum amount of Token A they agreed to (amountOutMin). Their large buy pushes the price even higher.
+   4. Back-Run ($T_B$): The attacker immediately sells the Token A they bought in $T_F$. Because both $T_F$ and $T_V$ pushed the price up, the attacker sells at a much higher price than they bought, pocketing the difference as profit.38
+4.5.3. Calculating the Optimal Front-Run
+The searcher's goal is to maximize profit. This is an optimization problem rooted in the CPMM math.
+The attacker wants to buy an amount $x_{attack}$ such that the pool's spot price moves to a level where the victim's trade will just barely succeed without reverting.
+If the victim specifies a minimum output $y_{min}$, the attacker solves for $x_{attack}$ such that:
+
+
+
+
+$$\text{Output}_{victim}( \text{State after } x_{attack} ) = y_{min}$$
+Mathematically, the optimal input for a sandwich attack on a Uniswap pool (derived from the fee-adjusted invariant) can be approximated by a closed-form solution involving the reserves and the victim's input amount.
+Formula for optimal input $x^*$:
+$$ x^* = \frac{\sqrt{\gamma^2 r_0 r_1 v (\gamma r_0 + r_1 + \gamma v)} - \gamma r_0 r_1}{\gamma (\gamma r_0 + r_1)} $$
+Where $v$ is the victim's input, $r_0, r_1$ are reserves, and $\gamma$ is the fee factor.41
+Critical Insight: Slippage tolerance is not just a safety buffer; it is a limit order for extraction. By setting a 5% slippage tolerance, a user is essentially authorizing MEV bots to extract up to 5% of their trade's value.26
+4.5.4. Mitigation Strategies
+   1. Tight Slippage: Reducing tolerance (e.g., to 0.1%) limits the attacker's room to maneuver but increases the risk of transaction failure during normal volatility.44
+   2. Private RPCs: Services like Flashbots Protect or MEV Blocker route transactions directly to block builders, bypassing the public mempool. If the transaction is not visible in the mempool, it cannot be sandwiched.45
+   3. Batch Auctions (CoW Swap): Moving away from continuous time ordering. In a batch auction, multiple orders are aggregated off-chain and settled in a single batch. Crucially, all trades in the batch clear at the same uniform price ("Coincidence of Wants"). Since there is no "before" or "after" within the batch, sandwich attacks are mathematically impossible.47
+________________
+4.6. Implementation Nuances and Edge Cases
+4.6.1. Fee-on-Transfer Tokens
+Standard AMM logic assumes that if a user transfers $X$ tokens to the pool, the pool receives $X$ tokens. However, deflationary or "taxed" tokens (e.g., SafeMoon, various meme coins) burn a percentage of every transfer.
+The Bug:
+If a router calculates amountIn = 100, sends 100 tokens, but the pair contract only receives 95 (due to a 5% tax), the swap function will fail or revert because the invariant check $x_{new} \cdot y_{new} \ge k$ will not hold based on the router's expected input.50
+The Solution:
+The UniswapV2Router implements swapExactTokensForTokensSupportingFeeOnTransferTokens. This function does not assume the input amount. Instead, it measures the pool's balance before and after the transfer to determine the actual amount received (amountReceived = balanceAfter - balanceBefore). It then passes this realized value to the swap logic.52 This pattern is critical for secure DeFi integration.
+4.6.2. Flash Swaps
+Uniswap V2 introduced Flash Swaps, which allow a user to receive tokens form the pool before paying for them, as long as the payment is made within the same atomic transaction.
+This maintains the invariant $x \cdot y = k$ only at the end of the transaction. This feature is vital for arbitrageurs, as it allows them to arbitrage price discrepancies between DEXs without holding upfront capital, ensuring that AMM prices remain efficient.18
+________________
+4.7. Conclusion: The Foundation of DeFi
+The Constant Product Market Maker is a masterpiece of constraint-based engineering. By accepting the severe limitations of the Ethereum blockchain—latency, low throughput, and high gas costs—it birthed a financial primitive based on passive liquidity and deterministic algebra.
+While simple in its formula ($x \cdot y = k$), the implications are profound. It guarantees infinite liquidity at the cost of slippage. It creates a permissionless market at the cost of impermanent loss for providers. It enables open access at the cost of MEV extraction by sophisticated bots.
+As we move toward more complex models in later modules (Uniswap V3's concentrated liquidity, Curve's stableswap invariant), the fundamental principles established here—invariants, spot prices, execution math, and adversarial game theory—remain the bedrock upon which the entire DeFi economy is built.
+Table 4.3: Comparison of Execution Models
+Feature
+	Central Limit Order Book (CLOB)
+	Automated Market Maker (AMM)
+	Price Discovery
+	Matching of discrete bids/asks.
+	Ratio of reserves ($y/x$).
+	Liquidity
+	Discrete; can dry up (empty book).
+	Continuous; infinite (asymptotic).
+	Cost
+	Spread + Exchange Fee.
+	Price Impact + Swap Fee + Gas.
+	Market Making
+	Active; high computational load.
+	Passive; set-and-forget (V2).
+	Primary Risk
+	Inventory risk, latency arbitrage.
+	Impermanent Loss (Short Gamma).
+	Works cited
+   1. What Is Hyperliquid? A Next-Gen Decentralized Trading Platform Explained - WunderTrading, accessed December 3, 2025, https://wundertrading.com/journal/en/learn/article/what-is-hyperliquid
+   2. The AMM Security Deep Dive - Part 1: The foundations of decentralized trading - Zealynx, accessed December 3, 2025, https://www.zealynx.io/blogs/amm-security-foundations-p1
+   3. From AMM to CLOB: Bringing Nasdaq into the $7 trillion on-chain race | 深潮 TechFlow on Binance Square, accessed December 3, 2025, https://www.binance.com/en/square/post/30388163029105
+   4. From AMM to CLOB: The $7 Trillion Race to Bring Nasdaq On-Chain - Gate.com, accessed December 3, 2025, https://www.gate.com/learn/articles/from-amm-to-clob-the-7-trillion-race-to-bring-nasdaq-on-chain/12763
+   5. From AMM to CLOB: The $7 Trillion Race to Bring Nasdaq On-Chain, accessed December 3, 2025, https://news.futunn.com/en/post/62787242/from-amm-to-clob-the-7-trillion-race-to-bring
+   6. Automated Market Makers (AMMs) Explained - Chainlink, accessed December 3, 2025, https://chain.link/education-hub/what-is-an-automated-market-maker-amm
+   7. accessed December 3, 2025, https://www.zealynx.io/blogs/uniswap-v1#:~:text=At%20the%20heart%20of%20Uniswap,asset%20(an%20ERC20%20token).
+   8. Automated Market Makers Explained - Ethereum Blockchain Developer, accessed December 3, 2025, https://www.ethereum-blockchain-developer.com/advanced-mini-courses/uniswap-introduction/automated-market-makers-explained
+   9. Uniswap v3 liquidity formula explained | by Atis E - Medium, accessed December 3, 2025, https://atise.medium.com/uniswap-v3-liquidity-formula-explained-de8bd42afc3c
+   10. Uniswap v1 explained: How it changed DeFi forever | Zealynx Security Blog, accessed December 3, 2025, https://www.zealynx.io/blogs/uniswap-v1
+   11. What is Constant Product Automated Market Maker (CPAMM)? - Delphi Digital, accessed December 3, 2025, https://members.delphidigital.io/learn/constant-product-automated-market-maker-cpamm
+   12. Automated market maker - Golden, accessed December 3, 2025, https://golden.com/wiki/Automated_market_maker-GZY3YNJ
+   13. RESEARCH PAPER Dexalot By House of Chimera - Cloudinary, accessed December 3, 2025, https://res.cloudinary.com/dl8wrczbj/image/upload/v1645022147/HouseofChimera/Report-PDFs/Dexalot-Research-Paper_fflut2.pdf
+   14. How To DeFi Advanced PDF | PDF | Market Liquidity | Cryptocurrency - Scribd, accessed December 3, 2025, https://www.scribd.com/document/515365827/How-to-DeFi-Advanced-pdf
+   15. Constant Product Automated Market Maker: Everything you need to know | by Pari Tomar | Medium, accessed December 3, 2025, https://medium.com/@tomarpari90/constant-product-automated-market-maker-everything-you-need-to-know-5bfeb0251ef2
+   16. Uniswap V2: Calculating the Settlement Price of an AMM Swap | By RareSkills, accessed December 3, 2025, https://rareskills.io/post/uniswap-v2-price-impact
+   17. Fees - Uniswap Docs, accessed December 3, 2025, https://docs.uniswap.org/contracts/v2/concepts/advanced-topics/fees
+   18. Uniswap V2 — Protocol Understanding | by Ben - CoinsBench, accessed December 3, 2025, https://coinsbench.com/uniswap-v2-protocol-understanding-11d43d5a4d9f
+   19. Swap - Get Amounts In Fork - Uniswap V2 - Video, accessed December 3, 2025, https://updraft.cyfrin.io/courses/uniswap-v2/swap/get-amounts-in-fork
+   20. Swap - Get Amounts Out Fork - Uniswap V2 - Video, accessed December 3, 2025, https://updraft.cyfrin.io/courses/uniswap-v2/swap/get-amounts-out-fork
+   21. Uniswap V2 — Contract Implementation | by Ben | Block Magnates, accessed December 3, 2025, https://blog.blockmagnates.com/uniswap-v2-contract-implementation-6ec8845f6fd6
+   22. What is Price Impact? Definition, Examples, and How to Reduce It - Cube Exchange, accessed December 3, 2025, https://www.cube.exchange/what-is/price-impact
+   23. What Is Slippage & Price Impact? - Sushi Swap, accessed December 3, 2025, https://www.sushi.com/academy/what-is-slippage-price-impact
+   24. Slippage - KyberSwap Docs, accessed December 3, 2025, https://docs.kyberswap.com/getting-started/foundational-topics/decentralized-finance/slippage
+   25. Price Impact - CoinAPI.io Glossary, accessed December 3, 2025, https://www.coinapi.io/learn/glossary/price-impact
+   26. What is Slippage? Definition, Examples, and How to Reduce It | Cube Exchange, accessed December 3, 2025, https://www.cube.exchange/what-is/slippage
+   27. Impermanent Loss Explained: The Math Behind DeFi's Hidden Risk | Speedrun Ethereum, accessed December 3, 2025, https://speedrunethereum.com/guides/impermanent-loss-math-explained
+   28. What is impermanent loss? - Coinbase, accessed December 3, 2025, https://www.coinbase.com/learn/crypto-glossary/what-is-impermanent-loss
+   29. What is Impermanent Loss [Explained] - Metana, accessed December 3, 2025, https://metana.io/blog/what-is-impermanent-loss/
+   30. Understanding Returns - Uniswap Docs, accessed December 3, 2025, https://docs.uniswap.org/contracts/v2/concepts/advanced-topics/understanding-returns
+   31. How to Calculate Impermanent Loss on Uniswap V2 | DeFi - YouTube, accessed December 3, 2025, https://www.youtube.com/watch?v=jIB4ne9jU04
+   32. Replicating Market Makers - Guillermo Angeris, accessed December 3, 2025, https://angeris.github.io/papers/rmms.pdf
+   33. Quantitative modelling and analysis of the Automated Market Maker Uniswap - International Conference on Computational Finance, accessed December 3, 2025, https://www.iccf24.nl/wp-content/uploads/sites/990/2024/04/Emmanuel-Gobet1.pdf
+   34. Comprehensive Trading Strategy Guide: Market Analysis, Options Strategies, and Risk Management | by Utkarsh Mittal | Nov, 2025 | Medium, accessed December 3, 2025, https://medium.com/@mittalutkarsh/comprehensive-trading-strategy-guide-market-analysis-options-strategies-and-risk-management-124ebe4c3641
+   35. Pool Value Replication (CPM) and Impermanent Loss ... - arXiv, accessed December 3, 2025, https://arxiv.org/html/2503.21967
+   36. A Note on Borrowing Constant Function Market Maker Shares - Guillermo Angeris, accessed December 3, 2025, https://angeris.github.io/papers/cfmm-lending.pdf
+   37. Analyzing and Preventing Sandwich Attacks in Ethereum - ETH Zürich, accessed December 3, 2025, https://pub.tik.ee.ethz.ch/students/2021-FS/BA-2021-07.pdf
+   38. What are Sandwich Attacks in DeFi? - Trust Wallet, accessed December 3, 2025, https://trustwallet.com/blog/security/what-are-sandwich-attacks-in-defi
+   39. DeFi sandwich attacks explained - CoW DAO, accessed December 3, 2025, https://cow.fi/learn/what-is-a-sandwich-attack-and-how-can-you-protect-yourself
+   40. Solodit Checklist Explained (11): Sandwich Attacks - Cyfrin, accessed December 3, 2025, https://www.cyfrin.io/blog/solodit-checklist-explained-11-sandwich-attacks
+   41. DeFi Sandwich Attacks | cmichel, accessed December 3, 2025, https://cmichel.io/de-fi-sandwich-attacks/
+   42. Unaligned Incentives: Pricing Attacks Against Blockchain Rollups - arXiv, accessed December 3, 2025, https://arxiv.org/html/2509.17126
+   43. Frontrunners and MEV Explained: How to Beat the Bots | CoinMarketCap, accessed December 3, 2025, https://coinmarketcap.com/academy/article/frontrunners-and-mev-explained-how-to-beat-the-bots
+   44. All you need to know about price impact on decentralized exchanges - STON.fi Blog, accessed December 3, 2025, https://blog.ston.fi/all-you-need-to-know-about-price-impact-on-decentralized-exchanges/
+   45. How to Secure Your Swaps from MEV Attacks - Uniswap Blog, accessed December 3, 2025, https://blog.uniswap.org/mev-protection
+   46. Front-Running & MEV Mitigation: A DEX Developer's Guide | Speedrun Ethereum, accessed December 3, 2025, https://speedrunethereum.com/guides/front-running-mev-mitigation
+   47. CoW DAO: MEV Protection, Protocol and AMM - Hexn, accessed December 3, 2025, https://hexn.io/blog/cow-dao-mev-protection-protocol-and-amm-gaiv5xfoq1uih9bdvr6xpq2w
+   48. What is price improvement and why is it unique to CoW Swap? - CoW DAO, accessed December 3, 2025, https://cow.fi/learn/what-is-price-improvement-and-why-is-it-unique-to-cow-swap
+   49. Understanding Batch Auctions - CoW DAO, accessed December 3, 2025, https://cow.fi/learn/understanding-batch-auctions
+   50. Uniswap V2 Audit Report - CryptoCompare, accessed December 3, 2025, https://resources.cryptocompare.com/asset-management/40/1682605994217.pdf
+   51. Uniswap V2 Audit Report - dapp.org, accessed December 3, 2025, https://dapp.org.uk/reports/uniswapv2.html
+   52. Uniswap v2 router code walkthrough | By RareSkills, accessed December 3, 2025, https://rareskills.io/post/uniswap-v2-router
+   53. Common Errors - Uniswap Docs, accessed December 3, 2025, https://docs.uniswap.org/contracts/v2/reference/smart-contracts/common-errors
