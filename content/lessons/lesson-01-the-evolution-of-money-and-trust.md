@@ -31,7 +31,7 @@ The community elders would gather at the site of the stone or in a public forum.
 This is conceptually identical to a digital asset on a blockchain. A Bitcoin does not exist as a physical object; it exists as an entry on a distributed ledger agreed upon by the network. The physical location of the mining servers is irrelevant to the validity of the value, just as the location of the sunken Rai stone was irrelevant to its purchasing power.
 
 
-![Distributed Consensus Comparison](images/lessons/lesson_01/bdc01_02_distributed_consensus_comparison.png)
+![Distributed Consensus Comparison](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_01/bdc01_02_distributed_consensus_comparison.png)
 
 
 ### Tally Sticks: The Immutable Hardware of Debt
@@ -71,7 +71,7 @@ This methodology provided a standardized, internal error-checking mechanism that
 While efficient, this model introduced a **Single Point of Failure**: if the central ledger was corrupted, or if the family's governance failed, the entire network of trust could collapse.
 
 
-![Trust Architecture Comparison](images/lessons/lesson_01/bdc01_03_trust_architecture_comparison.png)
+![Trust Architecture Comparison](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_01/bdc01_03_trust_architecture_comparison.png)
 
 
 ### The Fiat Standard: Decoupling from Reality
@@ -121,7 +121,7 @@ It is historically significant that the Bitcoin whitepaper was published by the 
 **The Philosophical Shift**: This marked the fundamental philosophical shift from **Institutional Trust** (trusting a bank, a government, or the Medicis) to **Programmatic Trust** (trusting code, mathematics, and consensus). In this new paradigm, value transfer does not require a "hub." It is Peer-to-Peer, censorship-resistant, and verified by a decentralized consensus mechanism rather than a boardroom decree.
 
 
-![Money Evolution Timeline](images/lessons/lesson_01/bdc01_01_money_evolution_timeline.png)
+![Money Evolution Timeline](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_01/bdc01_01_money_evolution_timeline.png)
 
 
 ## 🔑 Key Takeaways

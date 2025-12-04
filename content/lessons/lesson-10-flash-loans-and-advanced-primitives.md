@@ -15,11 +15,11 @@ Flash Loans represent a financial primitive with **no equivalent in traditional 
 **Key Insight**: The atomicity of blockchain transactions makes this possible. Either everything succeeds or nothing happens.
 
 
-![Flash Loan Transaction Flow](images/lessons/lesson_10/bdc10_01_flash_loan_transaction_flow.png)
+![Flash Loan Transaction Flow](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_10/bdc10_01_flash_loan_transaction_flow.png)
 
 
 
-![Atomic Transaction Diagram](images/lessons/lesson_10/bdc10_02_atomic_transaction_diagram.png)
+![Atomic Transaction Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_10/bdc10_02_atomic_transaction_diagram.png)
 
 
 ## 📚 Use Cases
@@ -31,7 +31,7 @@ Flash Loans represent a financial primitive with **no equivalent in traditional 
 **The Dark Side**: Flash loans are also used by attackers to maximize exploit impact.
 
 
-![Advanced DeFi Primitives Overview](images/lessons/lesson_10/bdc10_03_advanced_defi_primitives_overview.png)
+![Advanced DeFi Primitives Overview](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_10/bdc10_03_advanced_defi_primitives_overview.png)
 
 
 ## 🔑 Key Takeaways

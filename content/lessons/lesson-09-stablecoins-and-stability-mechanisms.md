@@ -5,7 +5,7 @@
 Cryptocurrencies are volatile; a functional financial system requires a stable unit of account. Stablecoins bridge this gap, but their design is constrained by the **Stablecoin Trilemma**: a stablecoin can only optimize for two of three properties—**Decentralization, Stability, and Capital Efficiency**.
 
 
-![Stablecoin Trilemma Diagram](images/lessons/lesson_09/bdc09_01_stablecoin_trilemma_diagram.png)
+![Stablecoin Trilemma Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_09/bdc09_01_stablecoin_trilemma_diagram.png)
 
 
 ## 📚 Types of Stablecoins
@@ -23,11 +23,11 @@ Decentralized and trustless. Users lock volatile crypto assets in a smart contra
 These attempt to maintain a peg via supply elasticity and incentives rather than full collateral backing. History (e.g., Terra/Luna) suggests these are highly risky and prone to "death spirals."
 
 
-![Stablecoin Types Comparison](images/lessons/lesson_09/bdc09_02_stablecoin_types_comparison.png)
+![Stablecoin Types Comparison](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_09/bdc09_02_stablecoin_types_comparison.png)
 
 
 
-![Stability Mechanism Flowchart](images/lessons/lesson_09/bdc09_03_stability_mechanism_flowchart.png)
+![Stability Mechanism Flowchart](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_09/bdc09_03_stability_mechanism_flowchart.png)
 
 
 ## 🔑 Key Takeaways

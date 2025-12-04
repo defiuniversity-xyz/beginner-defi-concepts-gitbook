@@ -5,7 +5,7 @@
 DeFi protocols like Aave and Compound allow for permissionless lending and borrowing. Unlike TradFi, which relies on credit scores, DeFi relies on **Over-Collateralization**. To borrow $100 worth of USDC, you might need to deposit $150 worth of ETH as collateral.
 
 
-![Over-Collateralization Diagram](images/lessons/lesson_08/bdc08_01_over-collateralization_diagram.png)
+![Over-Collateralization Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_08/bdc08_01_over-collateralization_diagram.png)
 
 
 ## 📚 How It Works
@@ -21,7 +21,7 @@ DeFi protocols like Aave and Compound allow for permissionless lending and borro
 - **Short Selling**: Borrow an asset to sell it, hoping to buy back cheaper
 
 
-![Lending Protocol Flowchart](images/lessons/lesson_08/bdc08_03_lending_protocol_flowchart.png)
+![Lending Protocol Flowchart](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_08/bdc08_03_lending_protocol_flowchart.png)
 
 
 ## 📚 Health Factors
@@ -34,7 +34,7 @@ $$H_f = \frac{Collateral \times Liquidation\ Threshold}{Debt}$$
 - **H_f < 1**: Position is liquidated
 
 
-![Health Factor Calculation Visualization](images/lessons/lesson_08/bdc08_02_health_factor_calculation_visualization.png)
+![Health Factor Calculation Visualization](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_08/bdc08_02_health_factor_calculation_visualization.png)
 
 
 ## 🔑 Key Takeaways

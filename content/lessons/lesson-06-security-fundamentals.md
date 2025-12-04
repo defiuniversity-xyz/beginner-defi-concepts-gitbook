@@ -31,7 +31,7 @@ The curriculum must integrate the use of tools like Revoke.cash as a standard op
 - Use Revoke.cash or similar tools monthly
 
 
-![Token Approval Process Diagram](images/lessons/lesson_06/bdc06_01_token_approval_process_diagram.png)
+![Token Approval Process Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_06/bdc06_01_token_approval_process_diagram.png)
 
 
 ## 📚 Operational Security Best Practices
@@ -62,11 +62,11 @@ If something seems too good to be true, it probably is. Scammers use fake airdro
 Keep your wallet software and browser extensions updated. Updates often include security patches.
 
 
-![Security Best Practices Checklist](images/lessons/lesson_06/bdc06_02_security_best_practices_checklist.png)
+![Security Best Practices Checklist](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_06/bdc06_02_security_best_practices_checklist.png)
 
 
 
-![Common Attack Vectors Diagram](images/lessons/lesson_06/bdc06_03_common_attack_vectors_diagram.png)
+![Common Attack Vectors Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_06/bdc06_03_common_attack_vectors_diagram.png)
 
 
 ## 🔑 Key Takeaways

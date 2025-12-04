@@ -28,11 +28,11 @@ Seed phrases (usually 12-24 words) are the human-readable backup of your private
 - If someone sees your phrase → they can steal your funds
 
 
-![Public vs Private Key Cryptography](images/lessons/lesson_05/bdc05_01_public_vs_private_key_cryptography.png)
+![Public vs Private Key Cryptography](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_05/bdc05_01_public_vs_private_key_cryptography.png)
 
 
 
-![Seed Phrase Security Flowchart](images/lessons/lesson_05/bdc05_03_seed_phrase_security_flowchart.png)
+![Seed Phrase Security Flowchart](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_05/bdc05_03_seed_phrase_security_flowchart.png)
 
 
 ## 📚 Wallet Typology and Risk Hierarchies
@@ -54,7 +54,7 @@ These devices (e.g., Ledger, Trezor) keep private keys air-gapped from the inter
 Emerging technology that improves UX by allowing features like social recovery, daily spending limits, and bundled transactions. This represents the future of user interaction, abstracting away raw private key management.
 
 
-![Wallet Types Comparison](images/lessons/lesson_05/bdc05_02_wallet_types_comparison.png)
+![Wallet Types Comparison](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_05/bdc05_02_wallet_types_comparison.png)
 
 
 ## 🔑 Key Takeaways

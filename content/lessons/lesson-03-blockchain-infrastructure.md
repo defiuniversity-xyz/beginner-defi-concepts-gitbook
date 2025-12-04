@@ -35,7 +35,7 @@ You cannot optimize for all three simultaneously. Every blockchain must choose w
 - **Some Alt-chains**: Prioritize Scalability + Decentralization → Sacrifice Security
 
 
-![Blockchain Trilemma Diagram](images/lessons/lesson_03/bdc03_01_blockchain_trilemma_diagram.png)
+![Blockchain Trilemma Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_03/bdc03_01_blockchain_trilemma_diagram.png)
 
 
 ## 📚 Case Studies: Different Approaches
@@ -95,11 +95,11 @@ Layer 2 (L2) solutions sit on top of L1. They handle the heavy lifting of proces
 **Security Inheritance**: Crucially, L2s inherit the security of L1. A user on Arbitrum (L2) is ultimately protected by Ethereum's (L1) consensus. Even if the L2 sequencer goes offline or tries to censor transactions, the user can force-exit their funds via the L1 "Supreme Court." This distinguishes L2s from "Sidechains" (like the old Polygon PoS), which have their own validator sets and can fail independently.
 
 
-![Blockchain Architecture Diagram](images/lessons/lesson_03/bdc03_02_blockchain_architecture_diagram.png)
+![Blockchain Architecture Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_03/bdc03_02_blockchain_architecture_diagram.png)
 
 
 
-![Layer Architecture Visualization](images/lessons/lesson_03/bdc03_03_layer_architecture_visualization.png)
+![Layer Architecture Visualization](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_03/bdc03_03_layer_architecture_visualization.png)
 
 
 ## 📚 Ethereum and the EVM Paradigm
