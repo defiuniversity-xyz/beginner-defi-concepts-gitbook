@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-10/audio/lesson10%20Flash_Loans_and_Advanced_Primitives.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-10/video/lesson10%20DeFi_Native_Innovations.mp4" %}
-
 # Lesson 10: Flash Loans and Advanced Primitives
 
 ## 🎯 Core Concept: Flash Loans

@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-08/audio/lesson8%20DeFi_Lending_and_Borrowing.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-08/video/lesson8%20Permissionless_Credit.mp4" %}
-
 # Lesson 8: DeFi Lending and Borrowing
 
 ## 🎯 Core Concept: Over-Collateralized Lending

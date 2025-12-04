@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-04/audio/lesson4%20Smart_Contracts_and_Token_Standards.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-04/video/lesson4%20The_Automation_of_Trust.mp4" %}
-
 # Lesson 4: Smart Contracts and Token Standards
 
 ## 🎯 Core Concept: Smart Contracts as Automated Trust

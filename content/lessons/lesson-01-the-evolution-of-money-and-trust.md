@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-01/audio/lesson1%20The_Evolution_of_Money_and_Trust.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-01/video/lesson1%20From_Stone_to_Code.mp4" %}
-
 # Lesson 1: The Evolution of Money and Trust
 
 ## 🎯 Core Concept: Money as a Ledger Technology

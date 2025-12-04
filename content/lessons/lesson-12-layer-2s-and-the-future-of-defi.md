@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-12/audio/lesson12%20Layer_2s_and_the_Future_of_DeFi.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-12/video/lesson12%20Scaling_DeFi.mp4" %}
-
 # Lesson 12: Layer 2s and the Future of DeFi
 
 ## 🎯 Core Concept: Scaling Solutions

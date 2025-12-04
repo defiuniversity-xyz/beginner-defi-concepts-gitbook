@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-09/audio/lesson9%20Stablecoins_and_Stability_Mechanisms.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-09/video/lesson9%20The_Stability_Trilemma.mp4" %}
-
 # Lesson 9: Stablecoins and Stability Mechanisms
 
 ## 🎯 Core Concept: The Stability Trilemma

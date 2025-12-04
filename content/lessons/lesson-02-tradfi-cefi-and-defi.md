@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-02/audio/lesson2%20TradFi_CeFi_and_DeFi.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-02/video/lesson2%20The_Financial_Continuum.mp4" %}
-
 # Lesson 2: TradFi, CeFi, and DeFi
 
 ## 🎯 Core Concept: The Three Financial Architectures

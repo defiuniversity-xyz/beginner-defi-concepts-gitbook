@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-05/audio/lesson5%20Wallets_and_Self-Custody.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-05/video/lesson5%20Your_Keys_Your_Crypto.mp4" %}
-
 # Lesson 5: Wallets and Self-Custody
 
 ## 🎯 Core Concept: Self-Custody and Private Keys

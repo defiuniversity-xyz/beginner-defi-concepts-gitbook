@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-06/audio/lesson6%20Security_Fundamentals.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-06/video/lesson6%20Staying_Safe_in_DeFi.mp4" %}
-
 # Lesson 6: Security Fundamentals
 
 ## 🎯 Core Concept: Active Security Hygiene

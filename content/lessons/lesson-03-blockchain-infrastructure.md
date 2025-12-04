@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-03/audio/lesson3%20Blockchain_Infrastructure.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-03/video/lesson3%20The_World_Computer.mp4" %}
-
 # Lesson 3: Blockchain Infrastructure
 
 ## 🎯 Core Concept: The Blockchain Trilemma

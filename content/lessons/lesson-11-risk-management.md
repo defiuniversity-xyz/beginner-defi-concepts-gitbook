@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-11/audio/lesson11%20Risk_Management.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-11/video/lesson11%20Staying_Safe_in_DeFi.mp4" %}
-
 # Lesson 11: Risk Management
 
 ## 🎯 Core Concept: Understanding DeFi Risks

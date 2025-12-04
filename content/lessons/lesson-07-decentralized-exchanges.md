@@ -1,7 +1,3 @@
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-07/audio/lesson7%20Decentralized_Exchanges.m4a" %}
-
-{% embed url="https://storage.googleapis.com/beginner-defi-concepts-media/lesson-07/video/lesson7%20AMMs_Explained.mp4" %}
-
 # Lesson 7: Decentralized Exchanges
 
 ## 🎯 Core Concept: Automated Market Makers (AMMs)
