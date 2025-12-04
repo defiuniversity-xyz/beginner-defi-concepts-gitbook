@@ -10,6 +10,18 @@ Code is law in DeFi, but code can be flawed. Understanding and managing risks is
 
 Code can have bugs. Even audited contracts can have vulnerabilities.
 
+
+![Risk vs Reward Matrix](images/lessons/lesson_11/bdc11_03_risk_vs_reward_matrix.png)
+
+
+
+![Portfolio Diversification Diagram](images/lessons/lesson_11/bdc11_02_portfolio_diversification_diagram.png)
+
+
+
+![Risk Assessment Framework](images/lessons/lesson_11/bdc11_01_risk_assessment_framework.png)
+
+
 **Mitigation**: Use well-audited, time-tested protocols. Start with small amounts.
 
 ### Oracle Risk

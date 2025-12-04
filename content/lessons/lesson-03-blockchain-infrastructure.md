@@ -34,6 +34,10 @@ You cannot optimize for all three simultaneously. Every blockchain must choose w
 - **Solana**: Prioritize Scalability + Security → Sacrifice some Decentralization
 - **Some Alt-chains**: Prioritize Scalability + Decentralization → Sacrifice Security
 
+
+![Blockchain Trilemma Diagram](images/lessons/lesson_03/bdc03_01_blockchain_trilemma_diagram.png)
+
+
 ## 📚 Case Studies: Different Approaches
 
 ### Bitcoin and Ethereum: The Security/Decentralization Maxis
@@ -89,6 +93,14 @@ Layer 2 (L2) solutions sit on top of L1. They handle the heavy lifting of proces
 2. **ZK-Rollups (Zero-Knowledge)**: These use advanced cryptography called Validity Proofs (e.g., zk-SNARKs). The rollup generates a complex mathematical proof that verifies the correctness of the entire batch before it is posted to Ethereum. The L1 contract verifies the proof. If the proof is valid, the transactions are final immediately. Analogy: An impregnable mathematical seal of approval that requires no "challenge period" because the math cannot lie.
 
 **Security Inheritance**: Crucially, L2s inherit the security of L1. A user on Arbitrum (L2) is ultimately protected by Ethereum's (L1) consensus. Even if the L2 sequencer goes offline or tries to censor transactions, the user can force-exit their funds via the L1 "Supreme Court." This distinguishes L2s from "Sidechains" (like the old Polygon PoS), which have their own validator sets and can fail independently.
+
+
+![Blockchain Architecture Diagram](images/lessons/lesson_03/bdc03_02_blockchain_architecture_diagram.png)
+
+
+
+![Layer Architecture Visualization](images/lessons/lesson_03/bdc03_03_layer_architecture_visualization.png)
+
 
 ## 📚 Ethereum and the EVM Paradigm
 

@@ -6,6 +6,10 @@ The contemporary financial landscape is not a monolith but a spectrum. We curren
 
 **Why This Matters**: Confusion often arises between CeFi (Centralized Crypto Finance, like Coinbase or Binance) and true DeFi (like Uniswap or Aave). Understanding the differences is critical for making informed decisions about where to store assets, how to trade, and what risks you're accepting.
 
+
+![Three Financial Architectures Comparison](images/lessons/lesson_02/bdc02_01_three_financial_architectures_comparison.png)
+
+
 ## 📚 Traditional Finance (TradFi): The Legacy Architecture
 
 TradFi represents the established banking, investment, and insurance infrastructure that has evolved from the Medici model. It is characterized by a hierarchical Hub-and-Spoke topology where centralized institutions act as the gatekeepers of value.
@@ -52,11 +56,19 @@ DeFi represents a fundamental departure from both TradFi and CeFi. It is a finan
 
 **Atomic Settlement**: Trades settle within the block time of the network (e.g., ~12 seconds on Ethereum, ~0.4 seconds on Solana). There is no T+2 delay; the trade and the settlement are the same event, eliminating counterparty settlement risk.
 
+
+
+![Settlement Time Comparison](images/lessons/lesson_02/bdc02_03_settlement_time_comparison.png)
+
 ### The Resilience of DeFi
 
 During the 2022 contagion that toppled FTX, Celsius, and Voyager, DeFi protocols like Aave, Compound, and Uniswap continued to function without interruption.
 
 **Why DeFi Survived**: When Celsius faced insolvency, it famously paid back its DeFi loans first—hundreds of millions of dollars—before freezing customer withdrawals. Why? Because the DeFi protocol (Aave) is governed by code, not human negotiation. If Celsius's collateralization ratio dropped below the threshold, the smart contract would automatically liquidate their position. There was no CEO to call to ask for a delay. This demonstrates the concept that **"Code is Law"**—DeFi eliminates the human discretion that allows for "sweetheart deals" and corruption in CeFi/TradFi.
+
+
+![Custody Comparison Diagram](images/lessons/lesson_02/bdc02_02_custody_comparison_diagram.png)
+
 
 ## 📊 Comparative Analysis
 

@@ -30,6 +30,10 @@ The curriculum must integrate the use of tools like Revoke.cash as a standard op
 - Regularly review and revoke unused approvals
 - Use Revoke.cash or similar tools monthly
 
+
+![Token Approval Process Diagram](images/lessons/lesson_06/bdc06_01_token_approval_process_diagram.png)
+
+
 ## 📚 Operational Security Best Practices
 
 ### 1. Verify Contract Addresses
@@ -56,6 +60,14 @@ If something seems too good to be true, it probably is. Scammers use fake airdro
 ### 5. Keep Software Updated
 
 Keep your wallet software and browser extensions updated. Updates often include security patches.
+
+
+![Security Best Practices Checklist](images/lessons/lesson_06/bdc06_02_security_best_practices_checklist.png)
+
+
+
+![Common Attack Vectors Diagram](images/lessons/lesson_06/bdc06_03_common_attack_vectors_diagram.png)
+
 
 ## 🔑 Key Takeaways
 

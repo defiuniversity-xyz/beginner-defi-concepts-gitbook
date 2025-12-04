@@ -15,6 +15,10 @@ In DeFi, smart contracts are autonomous, self-executing code that hold tokens an
 
 **Crucial Insight**: No clerk is required. The machine holds the custody of the asset (soda) and the logic for the trade. In DeFi, the smart contract holds the tokens and executes the financial logic automatically.
 
+
+![Smart Contract Vending Machine Analogy](images/lessons/lesson_04/bdc04_01_smart_contract_vending_machine_analogy.png)
+
+
 ## 📚 Ethereum and the EVM Paradigm
 
 While Bitcoin acts as a decentralized calculator (tracking balances), Ethereum acts as a decentralized computer. The Ethereum Virtual Machine (EVM) is a turing-complete environment that allows developers to upload persistent scripts known as "smart contracts."
@@ -22,6 +26,10 @@ While Bitcoin acts as a decentralized calculator (tracking balances), Ethereum a
 ### The EVM as a State Machine
 
 The EVM is a state machine: a global computer that transitions from one state to the next with every block of transactions. Every transaction changes the global state of Ethereum.
+
+
+![EVM State Machine Diagram](images/lessons/lesson_04/bdc04_02_evm_state_machine_diagram.png)
+
 
 ### Gas and Economic Incentives
 
@@ -65,6 +73,10 @@ Because tokens follow standards, different DeFi protocols can work together seam
 - All in a single transaction
 
 This composability is what makes DeFi powerful—protocols can build on top of each other.
+
+
+![Token Standards Comparison](images/lessons/lesson_04/bdc04_03_token_standards_comparison.png)
+
 
 ## 🔑 Key Takeaways
 

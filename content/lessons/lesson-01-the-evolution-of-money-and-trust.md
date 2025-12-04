@@ -30,6 +30,10 @@ The community elders would gather at the site of the stone or in a public forum.
 
 This is conceptually identical to a digital asset on a blockchain. A Bitcoin does not exist as a physical object; it exists as an entry on a distributed ledger agreed upon by the network. The physical location of the mining servers is irrelevant to the validity of the value, just as the location of the sunken Rai stone was irrelevant to its purchasing power.
 
+
+![Distributed Consensus Comparison](images/lessons/lesson_01/bdc01_02_distributed_consensus_comparison.png)
+
+
 ### Tally Sticks: The Immutable Hardware of Debt
 
 While the Yapese relied on oral consensus and social reputation, medieval Europe developed a hardware-based solution to the problem of trust: the split tally stick. Emerging in a time of widespread illiteracy and scarce coinage, the tally stick became the primary instrument for recording debts, tax obligations, and commercial contracts in England and across Europe for over seven centuries.
@@ -65,6 +69,10 @@ This methodology provided a standardized, internal error-checking mechanism that
 - **The Hub-and-Spoke Model**: The Medici Bank operated as a holding company with a centralized headquarters in Florence and semi-independent branches (spokes) in major commercial centers. This structure allowed them to ring-fence risk—if the London branch failed, it would not necessarily bankrupt the Florence hub—but it fundamentally centralized the "truth" of the ledger within the Medici family's control.
 
 While efficient, this model introduced a **Single Point of Failure**: if the central ledger was corrupted, or if the family's governance failed, the entire network of trust could collapse.
+
+
+![Trust Architecture Comparison](images/lessons/lesson_01/bdc01_03_trust_architecture_comparison.png)
+
 
 ### The Fiat Standard: Decoupling from Reality
 
@@ -111,6 +119,10 @@ It is historically significant that the Bitcoin whitepaper was published by the 
 - **Like Medici Bookkeeping**: It is a rigorous, triple-entry accounting system (Debit, Credit, and the Blockchain as the immutable auditor), but the auditor is not a person or a bank—it is a protocol.
 
 **The Philosophical Shift**: This marked the fundamental philosophical shift from **Institutional Trust** (trusting a bank, a government, or the Medicis) to **Programmatic Trust** (trusting code, mathematics, and consensus). In this new paradigm, value transfer does not require a "hub." It is Peer-to-Peer, censorship-resistant, and verified by a decentralized consensus mechanism rather than a boardroom decree.
+
+
+![Money Evolution Timeline](images/lessons/lesson_01/bdc01_01_money_evolution_timeline.png)
+
 
 ## 🔑 Key Takeaways
 

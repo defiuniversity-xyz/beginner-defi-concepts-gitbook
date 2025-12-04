@@ -18,11 +18,23 @@ Use advanced cryptography to prove transaction validity instantly. No challenge 
 
 **Examples**: zkSync, Starknet
 
+
+![Layer 2 Scaling Solutions Comparison](images/lessons/lesson_12/bdc12_01_layer_2_scaling_solutions_comparison.png)
+
+
+
+![Blockchain Scalability Trilemma](images/lessons/lesson_12/bdc12_02_blockchain_scalability_trilemma.png)
+
+
 ## 📚 The Future: Real World Assets (RWAs)
 
 The next frontier for DeFi is integrating off-chain value—tokenizing tangible assets like real estate, gold, or U.S. Treasury Bills.
 
 **The Challenge**: This re-introduces the "Oracle Problem" and centralization. A trusted legal entity must hold the physical asset.
+
+
+![DeFi Ecosystem Architecture](images/lessons/lesson_12/bdc12_03_defi_ecosystem_architecture.png)
+
 
 ## 📚 Institutional DeFi
 
