@@ -29,6 +29,11 @@ These attempt to maintain a peg via supply elasticity and incentives rather than
 
 ![Stability Mechanism Flowchart](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_09/bdc09_03_stability_mechanism_flowchart.png)
 
+## 🎮 Interactive: Stablecoin Comparison Tool
+
+Compare different stablecoins on the Trilemma axes—Decentralization, Stability, and Capital Efficiency:
+
+{% embed url="https://defi-university-app.web.app/interactives/defi-concepts/stablecoin-comparison.html?courseId=defi-concepts&interactionId=stablecoin-comparison" %}
 
 ## 🔑 Key Takeaways
 

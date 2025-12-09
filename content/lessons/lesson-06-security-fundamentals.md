@@ -68,6 +68,11 @@ Keep your wallet software and browser extensions updated. Updates often include 
 
 ![Common Attack Vectors Diagram](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_06/bdc06_03_common_attack_vectors_diagram.png)
 
+## 🎮 Interactive: Security Checklist
+
+Complete this interactive security checklist to review all essential DeFi security practices:
+
+{% embed url="https://defi-university-app.web.app/interactives/defi-concepts/security-checklist.html?courseId=defi-concepts&interactionId=security-checklist" %}
 
 ## 🔑 Key Takeaways
 

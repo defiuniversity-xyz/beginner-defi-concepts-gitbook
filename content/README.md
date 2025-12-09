@@ -48,6 +48,12 @@ Each lesson includes:
 
 5. **Build Systematically**: Master fundamentals before moving to advanced concepts. Each lesson builds on previous ones.
 
+## 🎮 Interactive: Key Concepts Flashcards
+
+Review and memorize the essential DeFi terminology with our interactive flashcards:
+
+{% embed url="https://defi-university-app.web.app/interactives/defi-concepts/key-concepts-flashcards.html?courseId=defi-concepts&interactionId=key-concepts-flashcards" %}
+
 ## 🚀 Getting Started
 
 1. Start with **Lesson 1: The Evolution of Money and Trust**

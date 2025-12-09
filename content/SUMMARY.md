@@ -12,6 +12,7 @@
   * [Exercise 3: Infrastructure and Architecture Analysis](exercises/exercise-03-infrastructure-and-architecture-analysis.md)
 * [Lesson 4: Smart Contracts and Token Standards](lessons/lesson-04-smart-contracts-and-token-standards.md)
   * [Exercise 4: Smart Contracts and Standards Assessment](exercises/exercise-04-smart-contracts-and-standards-assessment.md)
+* [📝 Module 1 Quiz](quizzes/quiz-module-01.md)
 
 ## Module 2: Access and Security
 
@@ -23,6 +24,7 @@
   * [Exercise 7: DEX Usage and AMM Analysis](exercises/exercise-07-dex-usage-and-amm-analysis.md)
 * [Lesson 8: DeFi Lending and Borrowing](lessons/lesson-08-defi-lending-and-borrowing.md)
   * [Exercise 8: Lending Protocol Analysis](exercises/exercise-08-lending-protocol-analysis.md)
+* [📝 Module 2 Quiz](quizzes/quiz-module-02.md)
 
 ## Module 3: Advanced Concepts
 
@@ -34,4 +36,4 @@
   * [Exercise 11: Risk Assessment Framework](exercises/exercise-11-risk-assessment-framework.md)
 * [Lesson 12: Layer 2s and the Future of DeFi](lessons/lesson-12-layer-2s-and-the-future-of-defi.md)
   * [Exercise 12: Future of DeFi Analysis](exercises/exercise-12-future-of-defi-analysis.md)
-
+* [📝 Module 3 Quiz](quizzes/quiz-module-03.md)

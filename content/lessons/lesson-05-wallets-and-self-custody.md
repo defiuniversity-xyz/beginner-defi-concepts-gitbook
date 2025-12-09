@@ -56,6 +56,11 @@ Emerging technology that improves UX by allowing features like social recovery, 
 
 ![Wallet Types Comparison](https://storage.googleapis.com/beginner-defi-concepts-gitbook-images/lessons/lesson_05/bdc05_02_wallet_types_comparison.png)
 
+## 🎮 Interactive: Wallet Type Selector
+
+Test your understanding of when to use different wallet types with this interactive scenario quiz:
+
+{% embed url="https://defi-university-app.web.app/interactives/defi-concepts/wallet-type-selector.html?courseId=defi-concepts&interactionId=wallet-type-selector" %}
 
 ## 🔑 Key Takeaways
 
